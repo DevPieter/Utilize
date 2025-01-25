@@ -1,8 +1,7 @@
 package nl.devpieter.utilize.managers;
 
 import nl.devpieter.sees.Sees;
-import nl.devpieter.utilize.enums.SleepState;
-import nl.devpieter.utilize.events.SleepStateChangedEvent;
+import nl.devpieter.utilize.events.player.SleepStateChangedEvent;
 
 public class SleepManager {
 
@@ -10,7 +9,7 @@ public class SleepManager {
 
     private final Sees sees = Sees.getInstance();
 
-    private SleepState currentState = SleepState.AWAKE;
+    private SleepStateChangedEvent.SleepState currentState = SleepStateChangedEvent.SleepState.AWAKE;
 
     private SleepManager() {
     }
@@ -21,22 +20,22 @@ public class SleepManager {
     }
 
     public void tick(boolean isSleeping, float sleepTimer) {
-        SleepState previous = this.currentState;
+        SleepStateChangedEvent.SleepState previous = this.currentState;
 
         switch (this.currentState) {
             case AWAKE:
-                if (isSleeping) this.currentState = SleepState.FALLING_ASLEEP;
+                if (isSleeping) this.currentState = SleepStateChangedEvent.SleepState.FALLING_ASLEEP;
                 break;
             case FALLING_ASLEEP:
-                if (!isSleeping) this.currentState = SleepState.AWAKE;
-                else if (sleepTimer == 100) this.currentState = SleepState.SLEEPING;
+                if (!isSleeping) this.currentState = SleepStateChangedEvent.SleepState.AWAKE;
+                else if (sleepTimer == 100) this.currentState = SleepStateChangedEvent.SleepState.SLEEPING;
                 break;
             case SLEEPING:
-                if (!isSleeping) this.currentState = SleepState.WAKING_UP;
+                if (!isSleeping) this.currentState = SleepStateChangedEvent.SleepState.WAKING_UP;
                 break;
             case WAKING_UP:
-                if (!isSleeping) this.currentState = SleepState.AWAKE;
-                else if (sleepTimer == 0) this.currentState = SleepState.SLEEPING;
+                if (!isSleeping) this.currentState = SleepStateChangedEvent.SleepState.AWAKE;
+                else if (sleepTimer == 0) this.currentState = SleepStateChangedEvent.SleepState.SLEEPING;
                 break;
         }
 
@@ -44,7 +43,7 @@ public class SleepManager {
         sees.call(new SleepStateChangedEvent(previous, this.currentState));
     }
 
-    public SleepState getCurrentState() {
+    public SleepStateChangedEvent.SleepState getCurrentState() {
         return currentState;
     }
 }

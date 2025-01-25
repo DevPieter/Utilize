@@ -4,8 +4,6 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.SharedConstants;
-import nl.devpieter.sees.Sees;
-import nl.devpieter.utilize.test.listeners.EventListeners;
 
 public class Utilize implements ClientModInitializer {
 
@@ -15,8 +13,8 @@ public class Utilize implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        Sees sees = Sees.getInstance();
-        sees.subscribe(new EventListeners());
+//        Sees sees = Sees.getInstance();
+//        sees.subscribe(new EventListeners());
     }
 
     public static boolean shouldBlockSwingHandOnce() {

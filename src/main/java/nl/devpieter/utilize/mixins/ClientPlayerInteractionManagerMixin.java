@@ -4,6 +4,7 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -12,6 +13,7 @@ import net.minecraft.util.math.Direction;
 import nl.devpieter.sees.Sees;
 import nl.devpieter.utilize.Utilize;
 import nl.devpieter.utilize.events.interaction.*;
+import nl.devpieter.utilize.events.screen.SlotClickEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -78,5 +80,11 @@ public abstract class ClientPlayerInteractionManagerMixin {
     private void onInteractEntity(PlayerEntity player, Entity target, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
         if (!this.sees.call(new InteractEntityEvent(player, target, hand))) return;
         cir.setReturnValue(ActionResult.FAIL);
+    }
+
+    @Inject(at = @At("HEAD"), method = "clickSlot", cancellable = true)
+    private void onClickSlot(int syncId, int slotId, int button, SlotActionType actionType, PlayerEntity player, CallbackInfo ci) {
+        if (!this.sees.call(new SlotClickEvent(syncId, slotId, button, actionType, player))) return;
+        ci.cancel();
     }
 }
