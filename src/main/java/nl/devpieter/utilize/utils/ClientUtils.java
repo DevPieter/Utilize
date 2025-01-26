@@ -1,9 +1,11 @@
 package nl.devpieter.utilize.utils;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.network.packet.Packet;
 import org.jetbrains.annotations.Nullable;
 
 public class ClientUtils {
@@ -30,5 +32,14 @@ public class ClientUtils {
 
     public static @Nullable ClientPlayerInteractionManager getInteractionManager() {
         return getClient().interactionManager;
+    }
+
+    public static @Nullable ClientPlayNetworkHandler getNetworkHandler() {
+        return getClient().getNetworkHandler();
+    }
+
+    public static void sendPacket(Packet<?> packet) {
+        if (getNetworkHandler() == null) return;
+        getNetworkHandler().sendPacket(packet);
     }
 }
