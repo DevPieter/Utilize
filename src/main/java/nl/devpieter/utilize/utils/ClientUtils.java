@@ -6,6 +6,7 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.network.packet.Packet;
+import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
 
 public class ClientUtils {
@@ -30,6 +31,10 @@ public class ClientUtils {
         return getClient().world;
     }
 
+    public static void sendMessage(Text message, boolean overlay) {
+        if (hasPlayer()) getPlayer().sendMessage(message, overlay);
+    }
+
     public static @Nullable ClientPlayerInteractionManager getInteractionManager() {
         return getClient().interactionManager;
     }
@@ -39,7 +44,6 @@ public class ClientUtils {
     }
 
     public static void sendPacket(Packet<?> packet) {
-        if (getNetworkHandler() == null) return;
-        getNetworkHandler().sendPacket(packet);
+        if (getNetworkHandler() != null) getNetworkHandler().sendPacket(packet);
     }
 }
