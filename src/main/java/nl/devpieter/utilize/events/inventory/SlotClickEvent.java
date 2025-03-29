@@ -1,4 +1,4 @@
-package nl.devpieter.utilize.events.screen;
+package nl.devpieter.utilize.events.inventory;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.screen.slot.SlotActionType;

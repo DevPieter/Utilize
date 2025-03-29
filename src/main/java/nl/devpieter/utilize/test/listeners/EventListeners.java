@@ -1,15 +1,9 @@
 package nl.devpieter.utilize.test.listeners;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.screen.slot.SlotActionType;
 import nl.devpieter.sees.Annotations.EventListener;
 import nl.devpieter.sees.Listener.Listener;
-import nl.devpieter.utilize.events.screen.ScreenChangedEvent;
-import nl.devpieter.utilize.events.screen.SlotClickEvent;
+import nl.devpieter.utilize.events.inventory.TotemCountChangedEvent;
+import nl.devpieter.utilize.events.inventory.TotemHoldingChangedEvent;
 
 public class EventListeners implements Listener {
 
@@ -60,45 +54,54 @@ public class EventListeners implements Listener {
 
     /// /        event.cancel();
 //    }
+//    @EventListener
+//    public void onScreenChanged(ScreenChangedEvent event) {
+//
+//        String previous = event.previous() == null ? "null" : event.previous().getTitle().getString();
+//        String current = event.current() == null ? "null" : event.current().getTitle().getString();
+//
+//        System.out.println("ScreenChangedEvent " + previous + " -> " + current);
+//    }
+//
+//    @EventListener
+//    public void onSlotClick1(SlotClickEvent event) {
+//        System.out.println("SlotClickEvent syncId: " + event.syncId() + " slotId: " + event.slotId() + " button: " + event.button() + " actionType: " + event.actionType());
+//
+//        if (event.slotId() != 45 || Screen.hasAltDown()) return;
+//
+//        ItemStack offHandStack = event.player().getInventory().getStack(PlayerInventory.OFF_HAND_SLOT);
+//        if (offHandStack.isOf(Items.TOTEM_OF_UNDYING)) event.cancel();
+//
+//        ItemStack cursorStack = event.player().currentScreenHandler.getCursorStack();
+//        if (!cursorStack.isOf(Items.TOTEM_OF_UNDYING)) event.cancel();
+//    }
+//
+//    @EventListener
+//    public void onSlotClick2(SlotClickEvent event) {
+//
+//        // SlotClickEvent syncId: 0 slotId: 9 button: 0 actionType: QUICK_MOVE
+//        // SlotClickEvent syncId: 0 slotId: 21 button: 40 actionType: SWAP
+//
+//        if (event.slotId() <= -999) return;
+//        if (event.actionType() != SlotActionType.QUICK_MOVE) return;
+//
+//        int slot = event.slotId();
+//        if (slot >= 36) slot -= 36;
+//
+//        ItemStack cursorStack = event.player().getInventory().getStack(slot);
+//        if (!cursorStack.isOf(Items.TOTEM_OF_UNDYING)) return;
+//
+//        event.cancel();
+//
+//        MinecraftClient.getInstance().interactionManager.clickSlot(event.syncId(), event.slotId(), PlayerInventory.OFF_HAND_SLOT, SlotActionType.SWAP, event.player());
+//    }
     @EventListener
-    public void onScreenChanged(ScreenChangedEvent event) {
-
-        String previous = event.previous() == null ? "null" : event.previous().getTitle().getString();
-        String current = event.current() == null ? "null" : event.current().getTitle().getString();
-
-        System.out.println("ScreenChangedEvent " + previous + " -> " + current);
+    public void onTotemCountChanged(TotemCountChangedEvent event) {
+        System.out.println("TotemCountChangedEvent " + event.previous() + " -> " + event.current());
     }
 
     @EventListener
-    public void onSlotClick1(SlotClickEvent event) {
-        System.out.println("SlotClickEvent syncId: " + event.syncId() + " slotId: " + event.slotId() + " button: " + event.button() + " actionType: " + event.actionType());
-
-        if (event.slotId() != 45 || Screen.hasAltDown()) return;
-
-        ItemStack offHandStack = event.player().getInventory().getStack(PlayerInventory.OFF_HAND_SLOT);
-        if (offHandStack.isOf(Items.TOTEM_OF_UNDYING)) event.cancel();
-
-        ItemStack cursorStack = event.player().currentScreenHandler.getCursorStack();
-        if (!cursorStack.isOf(Items.TOTEM_OF_UNDYING)) event.cancel();
-    }
-
-    @EventListener
-    public void onSlotClick2(SlotClickEvent event) {
-
-        // SlotClickEvent syncId: 0 slotId: 9 button: 0 actionType: QUICK_MOVE
-        // SlotClickEvent syncId: 0 slotId: 21 button: 40 actionType: SWAP
-
-        if (event.slotId() <= -999) return;
-        if (event.actionType() != SlotActionType.QUICK_MOVE) return;
-
-        int slot = event.slotId();
-        if (slot >= 36) slot -= 36;
-
-        ItemStack cursorStack = event.player().getInventory().getStack(slot);
-        if (!cursorStack.isOf(Items.TOTEM_OF_UNDYING)) return;
-
-        event.cancel();
-
-        MinecraftClient.getInstance().interactionManager.clickSlot(event.syncId(), event.slotId(), PlayerInventory.OFF_HAND_SLOT, SlotActionType.SWAP, event.player());
+    public void onTotemHoldingChanged(TotemHoldingChangedEvent event) {
+        System.out.println("TotemHoldingChangedEvent mainHand: " + event.previousMainHand() + " -> " + event.currentMainHand() + " offhand: " + event.previousOffhand() + " -> " + event.currentOffhand());
     }
 }

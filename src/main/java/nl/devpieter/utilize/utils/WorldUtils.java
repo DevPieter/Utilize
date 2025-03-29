@@ -1,6 +1,7 @@
 package nl.devpieter.utilize.utils;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -12,10 +13,16 @@ import java.util.List;
 
 public class WorldUtils {
 
-    public static Block getBlockAt(BlockPos pos) {
+    public static BlockState getStateAt(BlockPos pos) {
         if (!ClientUtils.hasWorld()) return null;
+        return ClientUtils.getWorld().getBlockState(pos);
+    }
 
-        return ClientUtils.getWorld().getBlockState(pos).getBlock();
+    public static Block getBlockAt(BlockPos pos) {
+        BlockState state = getStateAt(pos);
+        if (state == null) return null;
+
+        return state.getBlock();
     }
 
     public static List<? extends PlayerEntity> getNearbyPlayers(float distance) {

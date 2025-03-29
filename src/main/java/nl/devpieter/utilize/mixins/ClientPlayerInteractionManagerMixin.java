@@ -13,7 +13,7 @@ import net.minecraft.util.math.Direction;
 import nl.devpieter.sees.Sees;
 import nl.devpieter.utilize.Utilize;
 import nl.devpieter.utilize.events.interaction.*;
-import nl.devpieter.utilize.events.screen.SlotClickEvent;
+import nl.devpieter.utilize.events.inventory.SlotClickEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;

@@ -6,6 +6,7 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import nl.devpieter.utilize.Utilize;
 import nl.devpieter.utilize.managers.SleepManager;
+import nl.devpieter.utilize.managers.TotemManager;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -18,6 +19,9 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
     @Unique
     private final SleepManager sleepManager = SleepManager.getInstance();
 
+    @Unique
+    private final TotemManager totemManager = TotemManager.getInstance();
+
     public ClientPlayerEntityMixin(ClientWorld world, GameProfile profile) {
         super(world, profile);
     }
@@ -25,6 +29,7 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
     @Inject(at = @At("TAIL"), method = "tick")
     private void onTick(CallbackInfo ci) {
         this.sleepManager.tick(this.isSleeping(), this.getSleepTimer());
+        this.totemManager.tick();
     }
 
     @Inject(at = @At("HEAD"), method = "swingHand", cancellable = true)
