@@ -2,6 +2,7 @@ package nl.devpieter.utilize.test.listeners;
 
 import nl.devpieter.sees.Annotations.EventListener;
 import nl.devpieter.sees.Listener.Listener;
+import nl.devpieter.utilize.events.interaction.AttackBlockEvent;
 import nl.devpieter.utilize.events.inventory.TotemCountChangedEvent;
 import nl.devpieter.utilize.events.inventory.TotemHoldingChangedEvent;
 
@@ -15,14 +16,15 @@ public class EventListeners implements Listener {
 //    @EventListener
 //    public void onUpdateBlockBreakingProgress(UpdateBlockBreakingProgressEvent event) {
 //        System.out.println("UpdateBlockBreakingProgressEvent");
-////        event.cancel();
+
+    /// /        event.cancel();
 //    }
 //
-//    @EventListener
-//    public void onAttackBlock(AttackBlockEvent event) {
-//        System.out.println("AttackBlockEvent");
-////        event.cancel();
-//    }
+    @EventListener
+    public void onAttackBlock(AttackBlockEvent event) {
+        System.out.println("AttackBlockEvent");
+        event.cancel();
+    }
 //
 //    @EventListener
 //    public void onAttackEntity(AttackEntityEvent event) {

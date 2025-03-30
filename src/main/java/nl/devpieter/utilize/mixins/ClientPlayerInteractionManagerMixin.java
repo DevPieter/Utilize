@@ -53,7 +53,6 @@ public abstract class ClientPlayerInteractionManagerMixin {
 
         this.cancelBlockBreaking();
         cir.setReturnValue(false);
-        Utilize.blockSwingHandOnce();
     }
 
     @Inject(at = @At("HEAD"), method = "interactBlock", cancellable = true)

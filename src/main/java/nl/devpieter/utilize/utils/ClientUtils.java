@@ -1,5 +1,6 @@
 package nl.devpieter.utilize.utils;
 
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -19,6 +20,10 @@ public class ClientUtils {
     @Deprecated(since = "1.0.3", forRemoval = true)
     public static void sendPacket(Packet<?> packet) {
         NetworkUtils.sendPacket(packet);
+    }
+
+    public static boolean isDevEnv() {
+        return FabricLoader.getInstance().isDevelopmentEnvironment();
     }
 
     public static MinecraftClient getClient() {
