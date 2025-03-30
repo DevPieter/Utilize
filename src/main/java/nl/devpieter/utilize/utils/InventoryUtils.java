@@ -1,6 +1,5 @@
 package nl.devpieter.utilize.utils;
 
-import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -16,6 +15,10 @@ import java.util.List;
 
 public class InventoryUtils {
 
+    public static boolean hasInventory() {
+        return ClientUtils.hasPlayer() && ClientUtils.getPlayer().getInventory() != null;
+    }
+
     public static @Nullable PlayerInventory getInventory() {
         if (!ClientUtils.hasPlayer()) return null;
         return ClientUtils.getPlayer().getInventory();
@@ -27,7 +30,7 @@ public class InventoryUtils {
     }
 
     public static @Nullable ItemStack getMainHand() {
-        if (!ClientUtils.hasPlayer()) return null;
+        if (!hasInventory()) return null;
         return ClientUtils.getPlayer().getMainHandStack();
     }
 
@@ -37,25 +40,19 @@ public class InventoryUtils {
     }
 
     public static @Nullable ItemStack getOffhand() {
-        if (!ClientUtils.hasPlayer()) return null;
+        if (!hasInventory()) return null;
         return ClientUtils.getPlayer().getOffHandStack();
     }
 
     public static void selectHotbarSlot(int slot) {
-        if (!ClientUtils.hasPlayer()) return;
-
-        PlayerInventory inventory = getInventory();
-        if (inventory == null) return;
-
-        inventory.selectedSlot = slot;
+        if (slot < 0 || slot > 8 || !hasInventory()) return;
+        getInventory().setSelectedSlot(slot);
     }
 
     public static @NotNull List<Integer> findHotbarSlots(Item item) {
-        if (!ClientUtils.hasPlayer() || item == null) return new ArrayList<>();
+        if (!hasInventory() || item == null) return new ArrayList<>();
 
         PlayerInventory inventory = getInventory();
-        if (inventory == null) return new ArrayList<>();
-
         List<Integer> slots = new ArrayList<>();
 
         for (int i = 0; i < 9; i++) {
@@ -67,10 +64,8 @@ public class InventoryUtils {
     }
 
     public static int countItem(Item item) {
-        if (!ClientUtils.hasPlayer() || item == null) return 0;
-
+        if (!hasInventory() || item == null) return 0;
         PlayerInventory inventory = getInventory();
-        if (inventory == null) return 0;
 
         int count = 0;
 
@@ -83,21 +78,10 @@ public class InventoryUtils {
     }
 
     public static void clickSlot(int syncId, int packetSlot, int button, SlotActionType actionType) {
-        ClientPlayerInteractionManager interactionManager = ClientUtils.getInteractionManager();
-        if (interactionManager == null) return;
-
-        interactionManager.clickSlot(syncId, packetSlot, button, actionType, ClientUtils.getPlayer());
+        InteractionUtils.clickInventorySlot(syncId, packetSlot, button, actionType);
     }
 
     public static void swapItemWithOffhand() {
-        ClientUtils.sendPacket(new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.SWAP_ITEM_WITH_OFFHAND, BlockPos.ORIGIN, Direction.DOWN));
-    }
-
-    public static int toPacketSlot(int slot) {
-        if (slot >= 0 && slot < 9) return 36 + slot; // Hotbar
-        if (slot >= 36 && slot < 40) return 44 - slot; // Armor
-        if (slot == 40) return 45; // Offhand
-
-        return slot;
+        NetworkUtils.sendPacket(new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.SWAP_ITEM_WITH_OFFHAND, BlockPos.ORIGIN, Direction.DOWN));
     }
 }

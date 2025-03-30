@@ -2,7 +2,6 @@ package nl.devpieter.utilize.utils;
 
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.sound.SoundInstance;
-import net.minecraft.client.sound.SoundManager;
 import net.minecraft.sound.SoundEvent;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,7 +20,7 @@ public class SoundUtils {
     }
 
     public static void play(@NotNull SoundInstance soundInstance) {
-        SoundManager soundManager = ClientUtils.getClient().getSoundManager();
-        if (soundManager != null) soundManager.play(soundInstance);
+        if (!ClientUtils.hasSoundManager()) return;
+        ClientUtils.getSoundManager().play(soundInstance);
     }
 }

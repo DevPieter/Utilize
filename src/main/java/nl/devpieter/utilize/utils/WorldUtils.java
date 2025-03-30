@@ -7,18 +7,19 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class WorldUtils {
 
-    public static BlockState getStateAt(BlockPos pos) {
+    public static @Nullable BlockState getStateAt(BlockPos pos) {
         if (!ClientUtils.hasWorld()) return null;
         return ClientUtils.getWorld().getBlockState(pos);
     }
 
-    public static Block getBlockAt(BlockPos pos) {
+    public static @Nullable Block getBlockAt(BlockPos pos) {
         BlockState state = getStateAt(pos);
         if (state == null) return null;
 
