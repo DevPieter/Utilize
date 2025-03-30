@@ -5,7 +5,7 @@ plugins {
 
 preprocess {
     def mc12102 = createNode('1.21.2', 12102, "yarn")
-    def mc12006 = createNode('1.20.6', 12006, "yarn")
+    def mc12100 = createNode('1.21.0', 12100, "yarn")
 
-    mc12102.link(mc12006, null)
+    mc12102.link(mc12100, null)
 }
