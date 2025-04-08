@@ -46,7 +46,7 @@ public class InventoryUtils {
 
     public static void selectHotbarSlot(int slot) {
         if (slot < 0 || slot > 8 || !hasInventory()) return;
-        getInventory().setSelectedSlot(slot);
+        getInventory().selectedSlot = slot;
     }
 
     public static @NotNull List<Integer> findHotbarSlots(Item item) {

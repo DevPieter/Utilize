@@ -1,4 +1,4 @@
-package nl.devpieter.utilize.test.listeners;
+package nl.devpieter.utilize.listeners.sees;
 
 import nl.devpieter.sees.Annotations.EventListener;
 import nl.devpieter.sees.Listener.Listener;
@@ -6,7 +6,7 @@ import nl.devpieter.utilize.events.interaction.AttackBlockEvent;
 import nl.devpieter.utilize.events.inventory.TotemCountChangedEvent;
 import nl.devpieter.utilize.events.inventory.TotemHoldingChangedEvent;
 
-public class EventListeners implements Listener {
+public class TestEventListeners implements Listener {
 
 //    @EventListener
 //    public void onSleepStateChanged(SleepStateChangedEvent event) {
