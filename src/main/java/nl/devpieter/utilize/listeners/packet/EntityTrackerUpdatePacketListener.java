@@ -29,8 +29,13 @@ public class EntityTrackerUpdatePacketListener implements IPacketListener<Entity
         for (DataTracker.SerializedEntry<?> entry : packet.trackedValues()) {
             if (!(entry.value() instanceof VillagerData newVillagerData)) continue;
 
-            VillagerProfession previous = villager.getVillagerData().getProfession();
-            VillagerProfession current = newVillagerData.getProfession();
+            //#if MC>=12105
+            VillagerProfession previous = villager.getVillagerData().profession().value();
+            VillagerProfession current = newVillagerData.profession().value();
+            //#else
+            //$$ VillagerProfession previous = villager.getVillagerData().getProfession();
+            //$$ VillagerProfession current = newVillagerData.getProfession();
+            //#endif
 
             if (previous == current) continue;
             this.sees.call(new ProfessionChangedPacketEvent(villager, previous, current));

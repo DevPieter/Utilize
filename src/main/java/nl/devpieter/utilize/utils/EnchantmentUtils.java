@@ -4,6 +4,7 @@ import net.minecraft.component.type.ItemEnchantmentsComponent;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.EnchantmentTags;
 import org.jetbrains.annotations.NotNull;
@@ -33,6 +34,13 @@ public class EnchantmentUtils {
 
         Set<RegistryEntry<Enchantment>> enchantments = getEnchantments(stack);
         return enchantments.stream().anyMatch(entry -> entry == enchantment);
+    }
+
+    public static boolean hasEnchantment(ItemStack stack, RegistryKey<Enchantment> enchantment) {
+        if (!hasEnchantments(stack)) return false;
+
+        Set<RegistryEntry<Enchantment>> enchantments = getEnchantments(stack);
+        return enchantments.stream().anyMatch(entry -> entry.matchesKey(enchantment));
     }
 
     public static void forEachEnchantment(ItemStack stack, Consumer consumer) {

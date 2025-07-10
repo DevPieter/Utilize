@@ -22,9 +22,10 @@ pluginManagement {
 
 rootProject.buildFileName = "root.gradle"
 
-var versions = [ // Every folder in versions/ has to be included here
-                 "1.21.2",
-                 "1.21.0"
+var versions = [
+        "1.21.5",
+        "1.21.2",
+        "1.21.0"
 ]
 
 versions.forEach { version ->

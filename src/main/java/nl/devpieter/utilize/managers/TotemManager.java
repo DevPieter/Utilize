@@ -29,6 +29,22 @@ public class TotemManager {
         this.tickHoldingTotem();
     }
 
+    public int getCurrentTotems() {
+        return this.currentTotems;
+    }
+
+    public boolean isHoldingTotem() {
+        return this.holdingMainHand || this.holdingOffhand;
+    }
+
+    public boolean isHoldingTotemInMainHand() {
+        return this.holdingMainHand;
+    }
+
+    public boolean isHoldingTotemInOffhand() {
+        return this.holdingOffhand;
+    }
+
     private void tickTotemCount() {
         int totemCount = InventoryUtils.countItem(Items.TOTEM_OF_UNDYING);
         if (totemCount == this.currentTotems) return;

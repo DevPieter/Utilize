@@ -2,11 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Utilize.iml" filepath="$PROJECT_DIR$/.idea/modules/Utilize.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/versions/1.21.0/Utilize.1.21.0.main.iml" filepath="$PROJECT_DIR$/.idea/modules/versions/1.21.0/Utilize.1.21.0.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/versions/1.21.0/Utilize.1.21.0.test.iml" filepath="$PROJECT_DIR$/.idea/modules/versions/1.21.0/Utilize.1.21.0.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/versions/1.21.2/Utilize.1.21.2.main.iml" filepath="$PROJECT_DIR$/.idea/modules/versions/1.21.2/Utilize.1.21.2.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/versions/1.21.2/Utilize.1.21.2.test.iml" filepath="$PROJECT_DIR$/.idea/modules/versions/1.21.2/Utilize.1.21.2.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/versions/1.21.5/Utilize.1.21.5.main.iml" filepath="$PROJECT_DIR$/.idea/modules/versions/1.21.5/Utilize.1.21.5.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/versions/1.21.5/Utilize.1.21.5.test.iml" filepath="$PROJECT_DIR$/.idea/modules/versions/1.21.5/Utilize.1.21.5.test.iml" />
     </modules>
   </component>
 </project>

@@ -4,9 +4,12 @@
   "package": "nl.devpieter.utilize.mixins",
   "compatibilityLevel": "JAVA_21",
   "client": [
+    "ChatHudMixin",
     "ClientPlayerEntityMixin",
     "ClientPlayerInteractionManagerMixin",
-    "MinecraftClientMixin"
+    "DebugRendererMixin",
+    "MinecraftClientMixin",
+    "SoundSystemMixin"
   ],
   "injectors": {
     "defaultRequire": 1
