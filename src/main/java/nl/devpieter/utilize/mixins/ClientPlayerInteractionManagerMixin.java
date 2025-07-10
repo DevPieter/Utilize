@@ -79,6 +79,7 @@ public abstract class ClientPlayerInteractionManagerMixin {
 
     @Inject(at = @At("HEAD"), method = "attackEntity", cancellable = true)
     private void onAttackEntity(PlayerEntity player, Entity target, CallbackInfo ci) {
+        System.out.println("AttackEntityEvent called for " + target.getName().getString() + " by " + player.getName().getString());
         if (!this.sees.call(new AttackEntityEvent(player, target))) return;
 
         ci.cancel();
