@@ -38,7 +38,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build and publish to Maven repository (snapshot)
-        if: github.ref_name == 'dev`
+        if: github.ref_name == 'dev'
         run: ./gradlew publish
         env:
           SNAPSHOT_BUILD: true
