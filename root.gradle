@@ -1,6 +1,6 @@
 plugins {
     id 'fabric-loom' version '1.10-SNAPSHOT' apply false
-    id 'com.replaymod.preprocess' version '7c980d91ab'
+    id 'com.replaymod.preprocess' version '79307437eb'
 }
 
 preprocess {
