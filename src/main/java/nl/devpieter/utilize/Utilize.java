@@ -34,9 +34,6 @@ public class Utilize implements ClientModInitializer {
 
         if (!ClientUtils.isDevEnv()) return;
         LOGGER.info("Utilize is running in a development environment.");
-
-//        Sees sees = Sees.getInstance();
-//        sees.subscribe(new EventListeners());
     }
 
     public static boolean shouldBlockSwingHandOnce() {
