@@ -3,7 +3,9 @@
 A powerful utility library for Fabric mods by [DevPieter](https://pietr.space), with custom tools and events to make modding easier.
 
 [![Modrinth Downloads](https://img.shields.io/modrinth/dt/xkFNAjZd?color=blue&label=Downloads&logo=modrinth)](https://modrinth.com/mod/utilize)
+![Build Status](https://img.shields.io/github/actions/workflow/status/DevPieter/Utilize/maven-publish.yml?branch=main&label=Build%20Status&logo=github)
 ![License](https://img.shields.io/github/license/DevPieter/Utilize?color=blue&label=License&logo=github)
+![Java Version](https://img.shields.io/badge/Java-21-blue?logo=java&logoColor=white)
 
 - [Download](#download)
 - [Description](#description)
@@ -28,6 +30,7 @@ You can use Utilize in your Fabric mod by adding it as a dependency. The latest 
 on [Maven Pietr Space](https://maven.pietr.space/#/releases/nl/devpieter/utilize).
 
 [![Latest Release](https://maven.pietr.space/api/badge/latest/releases/nl/devpieter/utilize?name=Latest%20Release)](https://maven.pietr.space/#/releases/nl/devpieter/utilize)
+[![Latest Snapshot](https://maven.pietr.space/api/badge/latest/snapshots/nl/devpieter/utilize?name=Latest%20Snapshot)](https://maven.pietr.space/#/snapshots/nl/devpieter/utilize)
 
 ### Gradle
 
