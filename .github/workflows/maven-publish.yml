@@ -1,55 +1,87 @@
-name: Publish project to Maven repository
+plugins {
+    id 'fabric-loom'
+    id 'com.replaymod.preprocess'
+    id 'maven-publish'
+}
 
-on:
-  pull_request:
-    branches:
-      - main
-      - dev
-    types: [ closed ]
-  workflow_dispatch:
+def targetJavaVersion = 21
 
-jobs:
-  publish:
-    runs-on: ubuntu-latest
+def hash = System.getenv("GITHUB_SHA")?.substring(0, 7) ?: "dev"
+def isSnapshot = System.getenv('IS_SNAPSHOT')?.toBoolean() ?: false
 
-    steps:
-      - uses: actions/checkout@v4
+group = maven_group
+archivesBaseName = archives_base_name
+version = "${mod_version}+${minecraft_version}-${max_minecraft_version}" + (isSnapshot ? "-${hash}-SNAPSHOT" : "")
 
-      - name: Validate Gradle wrapper
-        uses: gradle/actions/wrapper-validation@v4
+repositories {
+    maven {
+        name = "pietrSpaceRepositoryReleases"
+        url = uri("https://maven.pietr.space/releases")
+    }
+}
 
-      - name: Set up JDK 21
-        uses: actions/setup-java@v4
-        with:
-          java-version: '21'
-          distribution: 'temurin'
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-      - name: Cache Gradle packages
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle.properties', '**/settings.gradle') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-      - name: Make Gradlew executable
-        run: chmod +x gradlew
+    implementation "nl.devpieter:sees:1.1.0"
+    include "nl.devpieter:sees:1.1.0"
+}
 
-      - name: Build and publish to Maven repository (snapshot)
-        if: github.ref_name == 'dev'
-        run: ./gradlew publish
-        env:
-          SNAPSHOT_BUILD: true
-          ORG_GRADLE_PROJECT_mavenRepositoryUrl: ${{ secrets.MAVEN_REPOSITORY_URL_SNAPSHOT }}
-          ORG_GRADLE_PROJECT_mavenRepositoryUsername: ${{ secrets.MAVEN_REPOSITORY_USERNAME_SNAPSHOT }}
-          ORG_GRADLE_PROJECT_mavenRepositoryPassword: ${{ secrets.MAVEN_REPOSITORY_PASSWORD_SNAPSHOT }}
+preprocess {
+    vars.put("MC", project.mcVersion)
+    vars.put("FABRIC", 1)
+}
 
-      - name: Build and publish to Maven repository (release)
-        if: github.ref_name == 'main'
-        run: ./gradlew publish
-        env:
-          ORG_GRADLE_PROJECT_mavenRepositoryUrl: ${{ secrets.MAVEN_REPOSITORY_URL_RELEASE }}
-          ORG_GRADLE_PROJECT_mavenRepositoryUsername: ${{ secrets.MAVEN_REPOSITORY_USERNAME_RELEASE }}
-          ORG_GRADLE_PROJECT_mavenRepositoryPassword: ${{ secrets.MAVEN_REPOSITORY_PASSWORD_RELEASE }}
+processResources {
+    inputs.property "version", project.version
+    inputs.property "minecraft_version", project.minecraft_version
+    inputs.property "max_minecraft_version", project.max_minecraft_version
+    inputs.property "loader_version", project.loader_version
+    filteringCharset "UTF-8"
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version,
+                "minecraft_version": project.minecraft_version,
+                "max_minecraft_version": project.max_minecraft_version,
+                "loader_version": project.loader_version
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.encoding = "UTF-8"
+    it.options.release.set(targetJavaVersion)
+}
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+    withSourcesJar()
+    withJavadocJar()
+}
+
+jar {
+    from("LICENSE") {
+        rename { "${it}_${project.archivesBaseName}" }
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifactId = artifact_id
+        }
+    }
+    repositories {
+        maven {
+            url = findProperty('mavenRepositoryUrl')
+            credentials {
+                username = findProperty('mavenRepositoryUsername')
+                password = findProperty('mavenRepositoryPassword')
+            }
+        }
+    }
+}
