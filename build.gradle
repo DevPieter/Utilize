@@ -5,10 +5,11 @@ plugins {
 }
 
 def targetJavaVersion = 21
+def isSnapshot = System.getenv('IS_SNAPSHOT')?.toBoolean() ?: false
 
 group = maven_group
 archivesBaseName = archives_base_name
-version = "${mod_version}+${minecraft_version}-${max_minecraft_version}"
+version = "${mod_version}+${minecraft_version}-${max_minecraft_version}" + (isSnapshot ? "-SNAPSHOT" : "")
 
 repositories {
     maven {
