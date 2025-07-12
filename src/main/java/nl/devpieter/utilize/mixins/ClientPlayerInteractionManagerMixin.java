@@ -65,14 +65,14 @@ public abstract class ClientPlayerInteractionManagerMixin {
 
     @Inject(at = @At("HEAD"), method = "interactBlock", cancellable = true)
     private void onInteractBlock(ClientPlayerEntity player, Hand hand, BlockHitResult hitResult, CallbackInfoReturnable<ActionResult> cir) {
-        if (!this.sees.call(new InteractBlockEvent(player, hand, hitResult))) return;
+        if (!this.sees.call(new InteractBlockEvent(hand, hitResult))) return;
         cir.setReturnValue(ActionResult.FAIL);
         cir.cancel();
     }
 
     @Inject(at = @At("HEAD"), method = "interactItem", cancellable = true)
     private void onInteractItem(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
-        if (!this.sees.call(new InteractItemEvent(player, hand))) return;
+        if (!this.sees.call(new InteractItemEvent(hand))) return;
         cir.setReturnValue(ActionResult.FAIL);
         cir.cancel();
     }
@@ -80,7 +80,7 @@ public abstract class ClientPlayerInteractionManagerMixin {
     @Inject(at = @At("HEAD"), method = "attackEntity", cancellable = true)
     private void onAttackEntity(PlayerEntity player, Entity target, CallbackInfo ci) {
         System.out.println("AttackEntityEvent called for " + target.getName().getString() + " by " + player.getName().getString());
-        if (!this.sees.call(new AttackEntityEvent(player, target))) return;
+        if (!this.sees.call(new AttackEntityEvent(target))) return;
 
         ci.cancel();
         Utilize.blockSwingHandOnce();
@@ -88,14 +88,14 @@ public abstract class ClientPlayerInteractionManagerMixin {
 
     @Inject(at = @At("HEAD"), method = "interactEntity", cancellable = true)
     private void onInteractEntity(PlayerEntity player, Entity target, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
-        if (!this.sees.call(new InteractEntityEvent(player, target, hand))) return;
+        if (!this.sees.call(new InteractEntityEvent(target, hand))) return;
         cir.setReturnValue(ActionResult.FAIL);
         cir.cancel();
     }
 
     @Inject(at = @At("HEAD"), method = "clickSlot", cancellable = true)
     private void onClickSlot(int syncId, int slotId, int button, SlotActionType actionType, PlayerEntity player, CallbackInfo ci) {
-        if (!this.sees.call(new SlotClickEvent(syncId, slotId, button, actionType, player))) return;
+        if (!this.sees.call(new SlotClickEvent(syncId, slotId, button, actionType))) return;
         ci.cancel();
     }
 

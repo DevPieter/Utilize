@@ -8,8 +8,7 @@
     "ClientPlayerEntityMixin",
     "ClientPlayerInteractionManagerMixin",
     "DebugRendererMixin",
-    "MinecraftClientMixin",
-    "SoundSystemMixin"
+    "MinecraftClientMixin"
   ],
   "injectors": {
     "defaultRequire": 1
