@@ -14,6 +14,15 @@ public class PlayerUtils {
         ClientUtils.getPlayer().sendMessage(message, overlay);
     }
 
+    public static @Nullable HitResult getHitResult() {
+        if (!ClientUtils.hasPlayer()) return null;
+
+        HitResult result = ClientUtils.getClient().crosshairTarget;
+        if (!(result instanceof HitResult hitResult)) return null;
+
+        return hitResult;
+    }
+
     public static @Nullable BlockHitResult getBlockHitResult() {
         if (!ClientUtils.hasPlayer()) return null;
 

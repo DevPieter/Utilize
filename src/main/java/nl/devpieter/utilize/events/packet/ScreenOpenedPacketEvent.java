@@ -2,9 +2,9 @@ package nl.devpieter.utilize.events.packet;
 
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.text.Text;
-import nl.devpieter.sees.Event.CancelableEventBase;
+import nl.devpieter.sees.event.SCancelableEventBase;
 
-public class ScreenOpenedPacketEvent extends CancelableEventBase {
+public class ScreenOpenedPacketEvent extends SCancelableEventBase {
 
     private final int syncId;
     private final ScreenHandlerType<?> type;

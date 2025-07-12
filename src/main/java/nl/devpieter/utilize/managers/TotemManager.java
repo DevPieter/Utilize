@@ -49,7 +49,7 @@ public class TotemManager {
         int totemCount = InventoryUtils.countItem(Items.TOTEM_OF_UNDYING);
         if (totemCount == this.currentTotems) return;
 
-        this.sees.call(new TotemCountChangedEvent(this.currentTotems, totemCount));
+        this.sees.dispatch(new TotemCountChangedEvent(this.currentTotems, totemCount));
         this.currentTotems = totemCount;
     }
 
@@ -58,7 +58,7 @@ public class TotemManager {
         boolean offhand = InventoryUtils.isOffhandOf(Items.TOTEM_OF_UNDYING);
         if (mainHand == this.holdingMainHand && offhand == this.holdingOffhand) return;
 
-        this.sees.call(new TotemHoldingChangedEvent(this.holdingMainHand, mainHand, this.holdingOffhand, offhand));
+        this.sees.dispatch(new TotemHoldingChangedEvent(this.holdingMainHand, mainHand, this.holdingOffhand, offhand));
         this.holdingMainHand = mainHand;
         this.holdingOffhand = offhand;
     }

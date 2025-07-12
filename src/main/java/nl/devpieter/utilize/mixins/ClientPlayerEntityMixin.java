@@ -43,15 +43,20 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
         super(world, profile);
     }
 
-    @Inject(at = @At("TAIL"), method = "tick")
+    @Inject(at = @At("HEAD"), method = "tick")
     private void onTick(CallbackInfo ci) {
+        this.sees.dispatch(new ClientTickEvent()); // rename to ClientPlayerTickEvent, or something similar
+    }
+
+    @Inject(at = @At("TAIL"), method = "tick")
+    private void onTickTail(CallbackInfo ci) {
         this.settingManager.tick();
         this.damageManager.tick(this.getHealth());
         this.sleepManager.tick(this.isSleeping(), this.getSleepTimer());
         this.taskManager.tick();
         this.totemManager.tick();
 
-        this.sees.call(new ClientTickEvent());
+        // this.sees.call(new ClientTickEvent()); // rename to ClientPlayerTickTailEvent, or something similar
     }
 
     @Inject(at = @At("HEAD"), method = "swingHand", cancellable = true)

@@ -1,9 +1,9 @@
 package nl.devpieter.utilize.events.player;
 
-import nl.devpieter.sees.Event.Event;
+import nl.devpieter.sees.event.SEvent;
 import org.jetbrains.annotations.NotNull;
 
-public record SleepStateChangedEvent(@NotNull SleepState previous, @NotNull SleepState current) implements Event {
+public record SleepStateChangedEvent(@NotNull SleepState previous, @NotNull SleepState current) implements SEvent {
 
     public enum SleepState {
         AWAKE,

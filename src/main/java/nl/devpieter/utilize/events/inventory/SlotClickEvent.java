@@ -1,24 +1,14 @@
 package nl.devpieter.utilize.events.inventory;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.screen.slot.SlotActionType;
-import nl.devpieter.sees.Event.CancelableEventBase;
+import nl.devpieter.sees.event.SCancelableEventBase;
 
-public class SlotClickEvent extends CancelableEventBase {
+public class SlotClickEvent extends SCancelableEventBase {
 
     private final int syncId;
     private final int slotId;
     private final int button;
     private final SlotActionType actionType;
-
-    @Deprecated(since = "1.0.9", forRemoval = true)
-    public SlotClickEvent(int syncId, int slotId, int button, SlotActionType actionType, PlayerEntity player) {
-        this.syncId = syncId;
-        this.slotId = slotId;
-        this.button = button;
-        this.actionType = actionType;
-    }
 
     public SlotClickEvent(int syncId, int slotId, int button, SlotActionType actionType) {
         this.syncId = syncId;
@@ -41,10 +31,5 @@ public class SlotClickEvent extends CancelableEventBase {
 
     public SlotActionType actionType() {
         return actionType;
-    }
-
-    @Deprecated(since = "1.0.9", forRemoval = true)
-    public PlayerEntity player() {
-        return MinecraftClient.getInstance().player;
     }
 }

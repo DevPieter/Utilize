@@ -31,8 +31,8 @@ public class DamageManager {
 
         if (difference == 0) return;
 
-        if (difference > 0) this.sees.call(new PlayerDamagedEvent(currentHealth, difference));
-        else if (difference < 0) this.sees.call(new PlayerHealedEvent(currentHealth, -difference));
+        if (difference > 0) this.sees.dispatch(new PlayerDamagedEvent(currentHealth, difference));
+        else if (difference < 0) this.sees.dispatch(new PlayerHealedEvent(currentHealth, -difference));
     }
 
     public double getCurrentHealth() {

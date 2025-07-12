@@ -32,6 +32,6 @@ public class MinecraftClientMixin {
 
     @Inject(at = @At("TAIL"), method = "setScreen")
     private void onSetScreenTail(Screen screen, CallbackInfo ci) {
-        this.sees.call(new ScreenChangedEvent(this.previousScreen, screen));
+        this.sees.dispatch(new ScreenChangedEvent(this.previousScreen, screen));
     }
 }

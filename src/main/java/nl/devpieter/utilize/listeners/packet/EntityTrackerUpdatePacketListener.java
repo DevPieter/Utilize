@@ -38,7 +38,7 @@ public class EntityTrackerUpdatePacketListener implements IPacketListener<Entity
             //#endif
 
             if (previous == current) continue;
-            this.sees.call(new ProfessionChangedPacketEvent(villager, previous, current));
+            this.sees.dispatch(new ProfessionChangedPacketEvent(villager, previous, current));
         }
 
         return false;
