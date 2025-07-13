@@ -13,7 +13,7 @@ import nl.devpieter.utilize.listeners.packet.OpenScreenPacketListener;
 import nl.devpieter.utilize.listeners.packet.SetTradeOffersPacketListener;
 import nl.devpieter.utilize.managers.PacketManager;
 import nl.devpieter.utilize.task.TaskManager;
-import nl.devpieter.utilize.utils.ClientUtils;
+import nl.devpieter.utilize.utils.minecraft.ClientUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

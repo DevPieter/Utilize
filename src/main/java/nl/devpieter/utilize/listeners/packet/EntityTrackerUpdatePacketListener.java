@@ -8,7 +8,7 @@ import net.minecraft.village.VillagerData;
 import net.minecraft.village.VillagerProfession;
 import nl.devpieter.sees.Sees;
 import nl.devpieter.utilize.events.packet.ProfessionChangedPacketEvent;
-import nl.devpieter.utilize.utils.WorldUtils;
+import nl.devpieter.utilize.utils.minecraft.WorldUtils;
 
 import java.lang.reflect.Type;
 

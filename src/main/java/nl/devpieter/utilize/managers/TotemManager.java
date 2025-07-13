@@ -4,7 +4,7 @@ import net.minecraft.item.Items;
 import nl.devpieter.sees.Sees;
 import nl.devpieter.utilize.events.inventory.TotemCountChangedEvent;
 import nl.devpieter.utilize.events.inventory.TotemHoldingChangedEvent;
-import nl.devpieter.utilize.utils.InventoryUtils;
+import nl.devpieter.utilize.utils.minecraft.InventoryUtils;
 
 public class TotemManager {
 
