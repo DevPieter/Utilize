@@ -111,11 +111,10 @@ public abstract class ClientPlayerInteractionManagerMixin {
 
     @Inject(at = @At("HEAD"), method = "attackEntity", cancellable = true)
     private void onAttackEntity(PlayerEntity player, Entity target, CallbackInfo ci) {
-        System.out.println("AttackEntityEvent called for " + target.getName().getString() + " by " + player.getName().getString());
         if (!this.sees.dispatch(new AttackEntityEvent(target))) return;
 
         ci.cancel();
-        Utilize.blockSwingHandOnce();
+//        Utilize.blockSwingHandOnce();
     }
 
     @Inject(at = @At("HEAD"), method = "interactEntity", cancellable = true)

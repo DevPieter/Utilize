@@ -9,7 +9,7 @@ import nl.devpieter.utilize.Utilize;
 import nl.devpieter.utilize.events.tick.ClientTickEvent;
 import nl.devpieter.utilize.managers.DamageManager;
 import nl.devpieter.utilize.managers.SleepManager;
-import nl.devpieter.utilize.managers.TaskManager;
+import nl.devpieter.utilize.task.TaskManager;
 import nl.devpieter.utilize.managers.TotemManager;
 import nl.devpieter.utilize.setting.SettingManager;
 import org.spongepowered.asm.mixin.Mixin;
@@ -59,11 +59,11 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
         // this.sees.call(new ClientTickEvent()); // rename to ClientPlayerTickTailEvent, or something similar
     }
 
-    @Inject(at = @At("HEAD"), method = "swingHand", cancellable = true)
-    private void onSwingHand(CallbackInfo ci) {
-        if (!Utilize.shouldBlockSwingHandOnce()) return;
-
-        ci.cancel();
-        Utilize.blockedSwingHandOnce();
-    }
+//    @Inject(at = @At("HEAD"), method = "swingHand", cancellable = true)
+//    private void onSwingHand(CallbackInfo ci) {
+//        if (!Utilize.shouldBlockSwingHandOnce()) return;
+//
+//        ci.cancel();
+//        Utilize.blockedSwingHandOnce();
+//    }
 }
