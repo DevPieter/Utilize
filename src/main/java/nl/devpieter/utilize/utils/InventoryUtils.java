@@ -24,7 +24,9 @@ public class InventoryUtils {
         return ClientUtils.getPlayer().getInventory();
     }
 
-    public static boolean isMainHandOf(Item item) {
+    public static boolean isMainHandOf(@Nullable Item item) {
+        if (item == null || !hasInventory()) return false;
+
         ItemStack mainHand = getMainHand();
         return mainHand != null && mainHand.isOf(item);
     }
@@ -34,7 +36,9 @@ public class InventoryUtils {
         return ClientUtils.getPlayer().getMainHandStack();
     }
 
-    public static boolean isOffhandOf(Item item) {
+    public static boolean isOffhandOf(@Nullable Item item) {
+        if (item == null || !hasInventory()) return false;
+
         ItemStack offhand = getOffhand();
         return offhand != null && offhand.isOf(item);
     }
@@ -64,8 +68,8 @@ public class InventoryUtils {
         //#endif
     }
 
-    public static @NotNull List<Integer> findHotbarSlots(Item item) {
-        if (!hasInventory() || item == null) return new ArrayList<>();
+    public static @NotNull List<Integer> findHotbarSlots(@Nullable Item item) {
+        if (item == null || !hasInventory()) return new ArrayList<>();
 
         PlayerInventory inventory = getInventory();
         List<Integer> slots = new ArrayList<>();
@@ -78,8 +82,8 @@ public class InventoryUtils {
         return slots;
     }
 
-    public static int countItem(Item item) {
-        if (!hasInventory() || item == null) return 0;
+    public static int countItem(@Nullable Item item) {
+        if (item == null || !hasInventory()) return -1;
         PlayerInventory inventory = getInventory();
 
         int count = 0;

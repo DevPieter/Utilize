@@ -5,11 +5,12 @@ import net.minecraft.block.BlockState;
 import net.minecraft.text.Text;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class PlayerUtils {
 
-    public static void sendMessage(Text message, boolean overlay) {
+    public static void sendMessage(@NotNull Text message, boolean overlay) {
         if (!ClientUtils.hasPlayer()) return;
         ClientUtils.getPlayer().sendMessage(message, overlay);
     }

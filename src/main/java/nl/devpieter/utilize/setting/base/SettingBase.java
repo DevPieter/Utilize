@@ -1,6 +1,7 @@
 package nl.devpieter.utilize.setting.base;
 
 import nl.devpieter.utilize.setting.interfaces.ISetting;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class SettingBase<T> implements ISetting<T> {
 
@@ -11,11 +12,11 @@ public abstract class SettingBase<T> implements ISetting<T> {
 
     private T value;
 
-    public SettingBase(String identifier, T defaultValue) {
+    public SettingBase(@NotNull String identifier, T defaultValue) {
         this(identifier, defaultValue, false);
     }
 
-    public SettingBase(String identifier, T defaultValue, boolean allowNull) {
+    public SettingBase(@NotNull String identifier, T defaultValue, boolean allowNull) {
         this.identifier = identifier;
         this.defaultValue = defaultValue;
         this.value = defaultValue;
@@ -24,22 +25,22 @@ public abstract class SettingBase<T> implements ISetting<T> {
 
     @Override
     public String getIdentifier() {
-        return identifier;
+        return this.identifier;
     }
 
     @Override
     public boolean shouldAllowNull() {
-        return allowNull;
+        return this.allowNull;
     }
 
     @Override
     public T getValue() {
-        return value;
+        return this.value;
     }
 
     @Override
     public T getDefault() {
-        return defaultValue;
+        return this.defaultValue;
     }
 
     @Override

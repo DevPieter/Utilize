@@ -8,6 +8,7 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.EnchantmentTags;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 
@@ -29,21 +30,21 @@ public class EnchantmentUtils {
         return EnchantmentHelper.hasEnchantments(stack);
     }
 
-    public static boolean hasEnchantment(ItemStack stack, RegistryEntry<Enchantment> enchantment) {
-        if (!hasEnchantments(stack)) return false;
+    public static boolean hasEnchantment(@Nullable ItemStack stack, @NotNull RegistryEntry<Enchantment> enchantment) {
+        if (stack == null || !hasEnchantments(stack)) return false;
 
         Set<RegistryEntry<Enchantment>> enchantments = getEnchantments(stack);
         return enchantments.stream().anyMatch(entry -> entry == enchantment);
     }
 
-    public static boolean hasEnchantment(ItemStack stack, RegistryKey<Enchantment> enchantment) {
-        if (!hasEnchantments(stack)) return false;
+    public static boolean hasEnchantment(@Nullable ItemStack stack, @NotNull RegistryKey<Enchantment> enchantment) {
+        if (stack == null || !hasEnchantments(stack)) return false;
 
         Set<RegistryEntry<Enchantment>> enchantments = getEnchantments(stack);
         return enchantments.stream().anyMatch(entry -> entry.matchesKey(enchantment));
     }
 
-    public static void forEachEnchantment(ItemStack stack, Consumer consumer) {
+    public static void forEachEnchantment(@NotNull ItemStack stack, @NotNull Consumer consumer) {
         ItemEnchantmentsComponent component = getComponent(stack);
         Set<RegistryEntry<Enchantment>> enchantments = getEnchantments(stack);
 
