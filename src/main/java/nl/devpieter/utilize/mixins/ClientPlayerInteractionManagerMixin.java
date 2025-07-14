@@ -11,11 +11,12 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import nl.devpieter.sees.Sees;
-import nl.devpieter.utilize.events.interaction.AttackEntityEvent;
-import nl.devpieter.utilize.events.interaction.InteractEntityEvent;
-import nl.devpieter.utilize.events.interaction.InteractItemEvent;
 import nl.devpieter.utilize.events.interaction.UpdateBlockBreakingProgressEvent;
 import nl.devpieter.utilize.events.interaction.block.*;
+import nl.devpieter.utilize.events.interaction.entity.*;
+import nl.devpieter.utilize.events.interaction.item.InteractItemEvent;
+import nl.devpieter.utilize.events.interaction.item.InteractItemReturnEvent;
+import nl.devpieter.utilize.events.interaction.item.InteractItemTailEvent;
 import nl.devpieter.utilize.events.inventory.HotbarSlotChangedEvent;
 import nl.devpieter.utilize.events.inventory.SlotClickEvent;
 import nl.devpieter.utilize.utils.minecraft.InventoryUtils;
@@ -49,24 +50,6 @@ public abstract class ClientPlayerInteractionManagerMixin {
         cir.setReturnValue(false);
     }
 
-    @Inject(at = @At("HEAD"), method = "breakBlock", cancellable = true)
-    private void onBreakBlock(BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
-        if (!this.sees.dispatch(new BreakBlockEvent(pos))) return;
-
-        this.cancelBlockBreaking();
-        cir.setReturnValue(false);
-    }
-
-    @Inject(at = @At("RETURN"), method = "breakBlock", cancellable = true)
-    private void onBreakBlockReturn(BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
-        cir.setReturnValue(this.sees.dispatchWithResult(new BreakBlockReturnEvent(pos, cir.getReturnValue())));
-    }
-
-    @Inject(at = @At("TAIL"), method = "breakBlock")
-    private void onBreakBlockTail(BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
-        this.sees.dispatch(new BreakBlockTailEvent(pos));
-    }
-
     @Inject(at = @At("HEAD"), method = "attackBlock", cancellable = true)
     private void onAttackBlock(BlockPos pos, Direction direction, CallbackInfoReturnable<Boolean> cir) {
         if (!this.sees.dispatch(new AttackBlockEvent(pos, direction))) return;
@@ -83,6 +66,24 @@ public abstract class ClientPlayerInteractionManagerMixin {
     @Inject(at = @At("TAIL"), method = "attackBlock")
     private void onAttackBlockTail(BlockPos pos, Direction direction, CallbackInfoReturnable<Boolean> cir) {
         this.sees.dispatch(new AttackBlockTailEvent(pos, direction));
+    }
+
+    @Inject(at = @At("HEAD"), method = "breakBlock", cancellable = true)
+    private void onBreakBlock(BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
+        if (!this.sees.dispatch(new BreakBlockEvent(pos))) return;
+
+        this.cancelBlockBreaking();
+        cir.setReturnValue(false);
+    }
+
+    @Inject(at = @At("RETURN"), method = "breakBlock", cancellable = true)
+    private void onBreakBlockReturn(BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
+        cir.setReturnValue(this.sees.dispatchWithResult(new BreakBlockReturnEvent(pos, cir.getReturnValue())));
+    }
+
+    @Inject(at = @At("TAIL"), method = "breakBlock")
+    private void onBreakBlockTail(BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
+        this.sees.dispatch(new BreakBlockTailEvent(pos));
     }
 
     @Inject(at = @At("HEAD"), method = "interactBlock", cancellable = true)
@@ -105,22 +106,48 @@ public abstract class ClientPlayerInteractionManagerMixin {
     private void onInteractItem(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
         if (!this.sees.dispatch(new InteractItemEvent(hand))) return;
         cir.setReturnValue(ActionResult.FAIL);
-        cir.cancel();
+    }
+
+    @Inject(at = @At("RETURN"), method = "interactItem", cancellable = true)
+    private void onInteractItemReturn(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
+        cir.setReturnValue(this.sees.dispatchWithResult(new InteractItemReturnEvent(hand, cir.getReturnValue())));
+    }
+
+    @Inject(at = @At("TAIL"), method = "interactItem")
+    private void onInteractItemTail(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
+        this.sees.dispatch(new InteractItemTailEvent(hand));
     }
 
     @Inject(at = @At("HEAD"), method = "attackEntity", cancellable = true)
     private void onAttackEntity(PlayerEntity player, Entity target, CallbackInfo ci) {
         if (!this.sees.dispatch(new AttackEntityEvent(target))) return;
-
         ci.cancel();
-//        Utilize.blockSwingHandOnce();
+    }
+
+    @Inject(at = @At("RETURN"), method = "attackEntity")
+    private void onAttackEntityReturn(PlayerEntity player, Entity target, CallbackInfo ci) {
+        this.sees.dispatch(new AttackEntityReturnEvent(target));
+    }
+
+    @Inject(at = @At("TAIL"), method = "attackEntity")
+    private void onAttackEntityTail(PlayerEntity player, Entity target, CallbackInfo ci) {
+        this.sees.dispatch(new AttackEntityTailEvent(target));
     }
 
     @Inject(at = @At("HEAD"), method = "interactEntity", cancellable = true)
     private void onInteractEntity(PlayerEntity player, Entity target, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
         if (!this.sees.dispatch(new InteractEntityEvent(target, hand))) return;
         cir.setReturnValue(ActionResult.FAIL);
-        cir.cancel();
+    }
+
+    @Inject(at = @At("RETURN"), method = "interactEntity", cancellable = true)
+    private void onInteractEntityReturn(PlayerEntity player, Entity target, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
+        cir.setReturnValue(this.sees.dispatchWithResult(new InteractEntityReturnEvent(target, hand, cir.getReturnValue())));
+    }
+
+    @Inject(at = @At("TAIL"), method = "interactEntity")
+    private void onInteractEntityTail(PlayerEntity player, Entity target, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
+        this.sees.dispatch(new InteractEntityTailEvent(target, hand));
     }
 
     @Inject(at = @At("HEAD"), method = "clickSlot", cancellable = true)
