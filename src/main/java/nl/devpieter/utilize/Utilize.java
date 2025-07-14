@@ -51,6 +51,7 @@ public class Utilize implements ClientModInitializer {
     }
 
     public static Utilize getInstance() {
+        if (INSTANCE == null) throw new IllegalStateException("Utilize has not been initialized yet!");
         return INSTANCE;
     }
 

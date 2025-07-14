@@ -3,11 +3,11 @@ package nl.devpieter.utilize.setting;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
-import nl.devpieter.utilize.Utilize;
 import nl.devpieter.utilize.setting.interfaces.ISetting;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.time.Duration;
@@ -21,8 +21,7 @@ public class SettingManager {
     private static SettingManager INSTANCE;
 
     private final Gson gson = new Gson();
-    private final Utilize utilize = Utilize.getInstance();
-    private final Logger logger = this.utilize.getLogger();
+    private final Logger logger = LoggerFactory.getLogger("Utilize - SettingManager");
 
     private final Duration saveInterval = Duration.ofSeconds(15);
     private final HashMap<String, List<KeyedSetting<?>>> saveQueue = new HashMap<>();
