@@ -38,6 +38,13 @@ public class SettingManager {
         return INSTANCE;
     }
 
+    public static void shutdown() {
+        if (INSTANCE == null) return;
+
+        INSTANCE.forceSaveQueue();
+        INSTANCE = null;
+    }
+
     public void tick() {
         if (this.saveQueue.isEmpty()) return;
 

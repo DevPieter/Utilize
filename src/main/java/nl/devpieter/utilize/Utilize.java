@@ -12,6 +12,7 @@ import nl.devpieter.utilize.listeners.packet.EntityTrackerUpdatePacketListener;
 import nl.devpieter.utilize.listeners.packet.OpenScreenPacketListener;
 import nl.devpieter.utilize.listeners.packet.SetTradeOffersPacketListener;
 import nl.devpieter.utilize.managers.PacketManager;
+import nl.devpieter.utilize.setting.SettingManager;
 import nl.devpieter.utilize.task.TaskManager;
 import nl.devpieter.utilize.utils.minecraft.ClientUtils;
 import org.slf4j.Logger;
@@ -42,6 +43,7 @@ public class Utilize implements ClientModInitializer {
             this.logger.info("Shutting down Utilize...");
 
             TaskManager.shutdown();
+            SettingManager.shutdown();
             AsyncRequest.shutdown();
         });
 
