@@ -21,7 +21,7 @@ public class SetTradeOffersPacketListener implements IPacketListener<SetTradeOff
         TradesOfferedPacketEvent event = new TradesOfferedPacketEvent(packet.getSyncId(), packet.getOffers());
         if (!this.sees.dispatch(event)) return false;
 
-        Utilize.blockScreenId(packet.getSyncId());
+        Utilize.getInstance().blockScreenId(packet.getSyncId());
         return true;
     }
 }

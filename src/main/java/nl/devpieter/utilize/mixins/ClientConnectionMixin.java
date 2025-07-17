@@ -29,11 +29,13 @@ public class ClientConnectionMixin {
     private static <T extends PacketListener> void onHandlePacketTail(Packet<T> packet, PacketListener listener, CallbackInfo ci) {
 
         if (packet instanceof OpenScreenS2CPacket openScreenPacket) {
+            Utilize utilize = Utilize.getInstance();
+
             int syncId = openScreenPacket.getSyncId();
-            if (!Utilize.shouldBlockScreenId(syncId)) return;
+            if (!utilize.shouldBlockScreenId(syncId)) return;
 
             NetworkUtils.sendPacket(new CloseHandledScreenC2SPacket(openScreenPacket.getSyncId()));
-            Utilize.blockedScreenId(syncId);
+            utilize.blockedScreenId(syncId);
             ci.cancel();
         }
     }
