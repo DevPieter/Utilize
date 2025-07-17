@@ -6,12 +6,12 @@ plugins {
 
 def targetJavaVersion = 21
 
-def hash = System.getenv("GITHUB_SHA")?.substring(0, 7) ?: "dev"
 def isSnapshot = System.getenv('SNAPSHOT_BUILD')?.toBoolean() ?: false
+def buildNumber = System.getenv('BUILD_NUMBER') ?: 'dev'
 
 group = maven_group
 archivesBaseName = archives_base_name
-version = "${mod_version}+${minecraft_version}-${max_minecraft_version}" + (isSnapshot ? "-${hash}-SNAPSHOT" : "")
+version = "${mod_version}+${minecraft_version}-${max_minecraft_version}" + (isSnapshot ? "-SNAPSHOT+${buildNumber}" : "")
 
 repositories {
     maven {
