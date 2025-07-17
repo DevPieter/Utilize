@@ -28,7 +28,7 @@ public class Utilize implements ClientModInitializer {
     private final Logger logger = LoggerFactory.getLogger("Utilize");
     private final ModContainer modContainer = FabricLoader.getInstance().getModContainer("utilize").orElseThrow();
 
-    private static final List<Integer> BLOCK_SCREEN_IDS = new ArrayList<>();
+    private final List<Integer> blockScreenIds = new ArrayList<>();
 
     @Override
     public void onInitializeClient() {
@@ -55,10 +55,6 @@ public class Utilize implements ClientModInitializer {
         return INSTANCE;
     }
 
-    public Logger getLogger() {
-        return this.logger;
-    }
-
     public String getUtilizeVersion() {
         return this.modContainer.getMetadata().getVersion().getFriendlyString();
     }
@@ -71,13 +67,13 @@ public class Utilize implements ClientModInitializer {
         return String.format("Utilize/%s (%s;)", this.getUtilizeVersion(), this.getMinecraftVersion());
     }
 
-    public static boolean shouldBlockScreenId(int screenId) {
-        return BLOCK_SCREEN_IDS.contains(screenId);
+    public boolean shouldBlockScreenId(int screenId) {
+        return blockScreenIds.contains(screenId);
     }
 
-    public static void blockScreenId(int screenId) {
-        if (BLOCK_SCREEN_IDS.contains(screenId)) return;
-        BLOCK_SCREEN_IDS.add(screenId);
+    public void blockScreenId(int screenId) {
+        if (this.blockScreenIds.contains(screenId)) return;
+        this.blockScreenIds.add(screenId);
 
         if (!ClientUtils.hasPlayer()) return;
         MinecraftClient client = MinecraftClient.getInstance();
@@ -91,7 +87,7 @@ public class Utilize implements ClientModInitializer {
         });
     }
 
-    public static void blockedScreenId(int screenId) {
-        BLOCK_SCREEN_IDS.removeIf(id -> id == screenId);
+    public void blockedScreenId(int screenId) {
+        this.blockScreenIds.removeIf(id -> id == screenId);
     }
 }

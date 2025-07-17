@@ -13,11 +13,14 @@ public abstract class AsyncRequest<T> extends RequestHelper {
     private final List<ResultConsumer<T>> callbacks = new ArrayList<>();
     private CompletableFuture<T> future;
 
+    protected abstract @Nullable T requestAsync() throws Exception;
+
     public AsyncRequest() {
         this(null);
     }
 
     public AsyncRequest(@Nullable ResultConsumer<T> requestCallback) {
+        if (requestCallback == null) return;
         this.callbacks.add(requestCallback);
     }
 
@@ -32,8 +35,6 @@ public abstract class AsyncRequest<T> extends RequestHelper {
             Thread.currentThread().interrupt();
         }
     }
-
-    protected abstract @Nullable T requestAsync() throws Exception;
 
     public void addCallback(@Nullable ResultConsumer<T> callback) {
         if (callback == null) return;
