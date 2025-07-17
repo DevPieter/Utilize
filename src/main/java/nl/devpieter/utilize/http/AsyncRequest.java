@@ -21,6 +21,7 @@ public abstract class AsyncRequest<T> extends RequestHelper {
     }
 
     public AsyncRequest(@Nullable ResultConsumer<T> requestCallback) {
+        if (requestCallback == null) return;
         this.callbacks.add(requestCallback);
     }
 
