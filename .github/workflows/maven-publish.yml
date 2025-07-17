@@ -42,6 +42,7 @@ jobs:
         run: ./gradlew publish
         env:
           SNAPSHOT_BUILD: true
+          BUILD_NUMBER: ${{ github.run_number }}
           ORG_GRADLE_PROJECT_mavenRepositoryUrl: ${{ secrets.MAVEN_REPOSITORY_URL_SNAPSHOT }}
           ORG_GRADLE_PROJECT_mavenRepositoryUsername: ${{ secrets.MAVEN_REPOSITORY_USERNAME_SNAPSHOT }}
           ORG_GRADLE_PROJECT_mavenRepositoryPassword: ${{ secrets.MAVEN_REPOSITORY_PASSWORD_SNAPSHOT }}
@@ -50,6 +51,7 @@ jobs:
         if: github.ref_name == 'main'
         run: ./gradlew publish
         env:
+          BUILD_NUMBER: ${{ github.run_number }}
           ORG_GRADLE_PROJECT_mavenRepositoryUrl: ${{ secrets.MAVEN_REPOSITORY_URL_RELEASE }}
           ORG_GRADLE_PROJECT_mavenRepositoryUsername: ${{ secrets.MAVEN_REPOSITORY_USERNAME_RELEASE }}
           ORG_GRADLE_PROJECT_mavenRepositoryPassword: ${{ secrets.MAVEN_REPOSITORY_PASSWORD_RELEASE }}
