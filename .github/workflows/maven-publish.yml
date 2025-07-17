@@ -4,7 +4,7 @@ on:
   pull_request:
     branches:
       - main
-      - dev
+      - snapshot/*
     types: [ closed ]
   workflow_dispatch:
 
@@ -38,7 +38,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build and publish to Maven repository (snapshot)
-        if: github.ref_name == 'dev'
+        if: startsWith(github.ref_name, 'snapshot/')
         run: ./gradlew publish
         env:
           SNAPSHOT_BUILD: true
