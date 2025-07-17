@@ -20,6 +20,8 @@ import java.util.List;
 public class Utilize implements ClientModInitializer {
 
     private static final ModContainer MOD_CONTAINER = FabricLoader.getInstance().getModContainer("utilize").orElseThrow();
+
+    @Deprecated(since = "1.0.11", forRemoval = true)
     public static final Logger LOGGER = LoggerFactory.getLogger("Utilize");
 
     private static boolean BLOCK_SWING_HAND_ONCE = false;
@@ -36,22 +38,27 @@ public class Utilize implements ClientModInitializer {
         LOGGER.info("Utilize is running in a development environment.");
     }
 
+    @Deprecated(since = "1.0.11", forRemoval = true)
     public static boolean shouldBlockSwingHandOnce() {
         return BLOCK_SWING_HAND_ONCE;
     }
 
+    @Deprecated(since = "1.0.11", forRemoval = true)
     public static void blockSwingHandOnce() {
         BLOCK_SWING_HAND_ONCE = true;
     }
 
+    @Deprecated(since = "1.0.11", forRemoval = true)
     public static void blockedSwingHandOnce() {
         BLOCK_SWING_HAND_ONCE = false;
     }
 
+    @Deprecated(since = "1.0.11, refactor", forRemoval = true)
     public static boolean shouldBlockScreenId(int screenId) {
         return BLOCK_SCREEN_IDS.contains(screenId);
     }
 
+    @Deprecated(since = "1.0.11, refactor", forRemoval = true)
     public static void blockScreenId(int screenId) {
         if (BLOCK_SCREEN_IDS.contains(screenId)) return;
         BLOCK_SCREEN_IDS.add(screenId);
@@ -68,6 +75,7 @@ public class Utilize implements ClientModInitializer {
         });
     }
 
+    @Deprecated(since = "1.0.11, refactor", forRemoval = true)
     public static void blockedScreenId(int screenId) {
         BLOCK_SCREEN_IDS.removeIf(id -> id == screenId);
     }
