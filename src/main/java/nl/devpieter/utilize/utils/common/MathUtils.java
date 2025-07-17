@@ -1,4 +1,4 @@
-package nl.devpieter.utilize.utils;
+package nl.devpieter.utilize.utils.common;
 
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;

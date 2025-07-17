@@ -8,7 +8,7 @@ import net.minecraft.village.VillagerData;
 import net.minecraft.village.VillagerProfession;
 import nl.devpieter.sees.Sees;
 import nl.devpieter.utilize.events.packet.ProfessionChangedPacketEvent;
-import nl.devpieter.utilize.utils.WorldUtils;
+import nl.devpieter.utilize.utils.minecraft.WorldUtils;
 
 import java.lang.reflect.Type;
 
@@ -38,7 +38,7 @@ public class EntityTrackerUpdatePacketListener implements IPacketListener<Entity
             //#endif
 
             if (previous == current) continue;
-            this.sees.call(new ProfessionChangedPacketEvent(villager, previous, current));
+            this.sees.dispatch(new ProfessionChangedPacketEvent(villager, previous, current));
         }
 
         return false;

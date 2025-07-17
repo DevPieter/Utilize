@@ -1,17 +1,27 @@
-package nl.devpieter.utilize.utils;
+package nl.devpieter.utilize.utils.minecraft;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.text.Text;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class PlayerUtils {
 
-    public static void sendMessage(Text message, boolean overlay) {
+    public static void sendMessage(@NotNull Text message, boolean overlay) {
         if (!ClientUtils.hasPlayer()) return;
         ClientUtils.getPlayer().sendMessage(message, overlay);
+    }
+
+    public static @Nullable HitResult getHitResult() {
+        if (!ClientUtils.hasPlayer()) return null;
+
+        HitResult result = ClientUtils.getClient().crosshairTarget;
+        if (!(result instanceof HitResult hitResult)) return null;
+
+        return hitResult;
     }
 
     public static @Nullable BlockHitResult getBlockHitResult() {

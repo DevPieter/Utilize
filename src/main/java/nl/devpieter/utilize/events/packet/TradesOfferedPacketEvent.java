@@ -1,9 +1,9 @@
 package nl.devpieter.utilize.events.packet;
 
 import net.minecraft.village.TradeOfferList;
-import nl.devpieter.sees.Event.CancelableEventBase;
+import nl.devpieter.sees.event.SCancelableEventBase;
 
-public class TradesOfferedPacketEvent extends CancelableEventBase {
+public class TradesOfferedPacketEvent extends SCancelableEventBase {
 
     private final int syncId;
     private final TradeOfferList tradeOffers;

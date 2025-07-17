@@ -1,4 +1,4 @@
-package nl.devpieter.utilize.utils;
+package nl.devpieter.utilize.utils.minecraft;
 
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.sound.SoundInstance;

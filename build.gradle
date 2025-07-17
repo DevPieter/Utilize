@@ -14,9 +14,18 @@ archivesBaseName = archives_base_name
 version = "${mod_version}+${minecraft_version}-${max_minecraft_version}" + (isSnapshot ? "-${hash}-SNAPSHOT" : "")
 
 repositories {
-    maven {
-        name = "pietrSpaceRepositoryReleases"
-        url = uri("https://maven.pietr.space/releases")
+    repositories {
+        maven {
+            name "Pietr Space Releases"
+            url "https://maven.pietr.space/releases"
+        }
+    }
+
+    repositories {
+        maven {
+            name "Pietr Space Snapshots"
+            url "https://maven.pietr.space/snapshots"
+        }
     }
 }
 
@@ -27,8 +36,8 @@ dependencies {
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    implementation "nl.devpieter:sees:1.1.0"
-    include "nl.devpieter:sees:1.1.0"
+    implementation "nl.devpieter:sees:1.2.0-dd2c322-SNAPSHOT"
+    include "nl.devpieter:sees:1.2.0-dd2c322-SNAPSHOT"
 }
 
 preprocess {

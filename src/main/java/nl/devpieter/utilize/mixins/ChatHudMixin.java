@@ -37,9 +37,8 @@ public abstract class ChatHudMixin {
 
     @Inject(at = @At("HEAD"), method = "addMessage(Lnet/minecraft/text/Text;Lnet/minecraft/network/message/MessageSignatureData;Lnet/minecraft/client/gui/hud/MessageIndicator;)V", cancellable = true)
     public void onAddMessage(Text message, MessageSignatureData signatureData, MessageIndicator indicator, CallbackInfo ci) {
-
-        ReceiveMessageEvent event = new ReceiveMessageEvent(message);
-        Text result = this.sees.callWithResult(event);
+        ReceiveMessageEvent event = new ReceiveMessageEvent(message); // rename to ChatHudMessageAddEvent, or something similar
+        Text result = this.sees.dispatchWithResult(event);
 
         if (event.isCancelled()) {
             ci.cancel();

@@ -19,9 +19,9 @@ public class OpenScreenPacketListener implements IPacketListener<OpenScreenS2CPa
     @Override
     public boolean onPacket(OpenScreenS2CPacket packet) {
         ScreenOpenedPacketEvent event = new ScreenOpenedPacketEvent(packet.getSyncId(), packet.getScreenHandlerType(), packet.getName());
-        if (!this.sees.call(event)) return false;
+        if (!this.sees.dispatch(event)) return false;
 
-        Utilize.blockScreenId(packet.getSyncId());
+        Utilize.getInstance().blockScreenId(packet.getSyncId());
         return false;
     }
 }

@@ -40,7 +40,7 @@ public class SleepManager {
         }
 
         if (previous == this.currentState) return;
-        this.sees.call(new SleepStateChangedEvent(previous, this.currentState));
+        this.sees.dispatch(new SleepStateChangedEvent(previous, this.currentState));
     }
 
     public SleepStateChangedEvent.SleepState getCurrentState() {

@@ -1,4 +1,4 @@
-package nl.devpieter.utilize.utils;
+package nl.devpieter.utilize.utils.minecraft;
 
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
@@ -7,20 +7,8 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.client.sound.SoundManager;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.text.Text;
 
 public class ClientUtils {
-
-    @Deprecated(since = "1.0.3", forRemoval = true)
-    public static void sendMessage(Text message, boolean overlay) {
-        PlayerUtils.sendMessage(message, overlay);
-    }
-
-    @Deprecated(since = "1.0.3", forRemoval = true)
-    public static void sendPacket(Packet<?> packet) {
-        NetworkUtils.sendPacket(packet);
-    }
 
     public static boolean isDevEnv() {
         return FabricLoader.getInstance().isDevelopmentEnvironment();
