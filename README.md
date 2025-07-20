@@ -19,6 +19,9 @@ You can download Utilize on Modrinth: [Download Utilize](https://modrinth.com/mo
 ![Minecraft](https://img.shields.io/badge/Minecraft-1.21.x-1976d2)
 ![Environment](https://img.shields.io/badge/Environment-client-1976d2)
 
+![Modrinth Version](https://img.shields.io/modrinth/v/xkFNAjZd?color=blue&label=Version&logo=modrinth)
+![Modrinth Game Versions](https://img.shields.io/modrinth/game-versions/xkFNAjZd?color=blue&label=Game%20Versions&logo=modrinth)
+
 ## Description
 
 This is **Utilize**, yet another Minecraft modding library, made for [DevPieter](https://pietr.space/)'s mods. It
