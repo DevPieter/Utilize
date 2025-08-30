@@ -22,6 +22,9 @@ import java.util.List;
 
 public class Utilize implements ClientModInitializer {
 
+    private static Utilize INSTANCE;
+    private static boolean INITIALIZED = false;
+
     private static final ModContainer MOD_CONTAINER = FabricLoader.getInstance().getModContainer("utilize").orElseThrow();
 
     @Deprecated(since = "1.0.11", forRemoval = true)
@@ -32,6 +35,8 @@ public class Utilize implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+        INSTANCE = this;
+
         PacketManager packetManager = PacketManager.getInstance();
         packetManager.subscribe(new EntityTrackerUpdatePacketListener());
         packetManager.subscribe(new OpenScreenPacketListener());
@@ -44,8 +49,16 @@ public class Utilize implements ClientModInitializer {
             AsyncRequest.shutdown();
         });
 
-        if (!ClientUtils.isDevEnv()) return;
-        LOGGER.info("Utilize is running in a development environment.");
+        INITIALIZED = true;
+    }
+
+    public static Utilize getInstance() {
+        if (INSTANCE == null) throw new IllegalStateException("Utilize has not been initialized yet!");
+        return INSTANCE;
+    }
+
+    public static boolean isInitialized() {
+        return INITIALIZED;
     }
 
     @Deprecated(since = "1.0.11", forRemoval = true)
