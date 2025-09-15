@@ -8,9 +8,7 @@ import net.minecraft.SharedConstants;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import nl.devpieter.utilize.http.AsyncRequest;
-import nl.devpieter.utilize.listeners.packet.EntityTrackerUpdatePacketListener;
 import nl.devpieter.utilize.listeners.packet.OpenScreenPacketListener;
-import nl.devpieter.utilize.listeners.packet.SetTradeOffersPacketListener;
 import nl.devpieter.utilize.managers.PacketManager;
 import nl.devpieter.utilize.setting.SettingManager;
 import nl.devpieter.utilize.task.TaskManager;
@@ -37,9 +35,7 @@ public class Utilize implements ClientModInitializer {
         INSTANCE = this;
 
         PacketManager packetManager = PacketManager.getInstance();
-        packetManager.subscribe(new EntityTrackerUpdatePacketListener());
         packetManager.subscribe(new OpenScreenPacketListener());
-        packetManager.subscribe(new SetTradeOffersPacketListener());
 
         ClientLifecycleEvents.CLIENT_STOPPING.register((client) -> {
             this.logger.info("Shutting down Utilize...");
