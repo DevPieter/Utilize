@@ -5,6 +5,8 @@ import net.minecraft.client.gui.screen.Screen;
 import nl.devpieter.sees.Sees;
 import nl.devpieter.utilize.Utilize;
 import nl.devpieter.utilize.events.screen.ScreenChangedEvent;
+import nl.devpieter.utilize.events.tick.ClientTickEvent;
+import nl.devpieter.utilize.events.tick.ClientTickTailEvent;
 import nl.devpieter.utilize.setting.SettingManager;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -40,8 +42,13 @@ public class MinecraftClientMixin {
         this.sees.dispatch(new ScreenChangedEvent(this.previousScreen, screen));
     }
 
-    @Inject(at = @At("TAIL"), method = "tick")
+    @Inject(at = @At("HEAD"), method = "tick")
     private void onTick(CallbackInfo ci) {
+        this.sees.dispatch(new ClientTickEvent());
+    }
+
+    @Inject(at = @At("TAIL"), method = "tick")
+    private void onTickTail(CallbackInfo ci) {
         if (settingManager == null) {
             if (!Utilize.getInstance().isInitialized()) return;
             settingManager = SettingManager.getInstance();
@@ -50,5 +57,7 @@ public class MinecraftClientMixin {
         if (settingManager != null) {
             settingManager.tick();
         }
+
+        this.sees.dispatch(new ClientTickTailEvent());
     }
 }

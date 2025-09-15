@@ -5,7 +5,8 @@ import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import nl.devpieter.sees.Sees;
-import nl.devpieter.utilize.events.tick.ClientTickEvent;
+import nl.devpieter.utilize.events.tick.ClientPlayerTickEvent;
+import nl.devpieter.utilize.events.tick.ClientPlayerTickTailEvent;
 import nl.devpieter.utilize.managers.DamageManager;
 import nl.devpieter.utilize.task.TaskManager;
 import org.spongepowered.asm.mixin.Mixin;
@@ -32,7 +33,7 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 
     @Inject(at = @At("HEAD"), method = "tick")
     private void onTick(CallbackInfo ci) {
-        this.sees.dispatch(new ClientTickEvent()); // rename to ClientPlayerTickEvent, or something similar
+        this.sees.dispatch(new ClientPlayerTickEvent());
     }
 
     @Inject(at = @At("TAIL"), method = "tick")
@@ -40,14 +41,6 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
         this.damageManager.tick(this.getHealth());
         this.taskManager.tick();
 
-        // this.sees.call(new ClientTickEvent()); // rename to ClientPlayerTickTailEvent, or something similar
+        this.sees.dispatch(new ClientPlayerTickTailEvent());
     }
-
-//    @Inject(at = @At("HEAD"), method = "swingHand", cancellable = true)
-//    private void onSwingHand(CallbackInfo ci) {
-//        if (!Utilize.shouldBlockSwingHandOnce()) return;
-//
-//        ci.cancel();
-//        Utilize.blockedSwingHandOnce();
-//    }
 }
