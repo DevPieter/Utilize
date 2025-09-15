@@ -22,9 +22,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity {
 
     @Unique
-    private final SettingManager settingManager = SettingManager.getInstance();
-
-    @Unique
     private final Sees sees = Sees.getInstance();
 
     @Unique
@@ -50,7 +47,6 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 
     @Inject(at = @At("TAIL"), method = "tick")
     private void onTickTail(CallbackInfo ci) {
-        this.settingManager.tick();
         this.damageManager.tick(this.getHealth());
         this.sleepManager.tick(this.isSleeping(), this.getSleepTimer());
         this.taskManager.tick();

@@ -30,6 +30,8 @@ public class Utilize implements ClientModInitializer {
 
     private final List<Integer> blockScreenIds = new ArrayList<>();
 
+    private boolean isInitialized;
+
     @Override
     public void onInitializeClient() {
         INSTANCE = this;
@@ -48,11 +50,39 @@ public class Utilize implements ClientModInitializer {
         });
 
         this.logger.info("Utilize initialized successfully! Version: {}", this.getUtilizeVersion());
+        this.isInitialized = true;
     }
 
+    /**
+     * Checks if Utilize has been initialized.
+     *
+     * @return true if the mod instance exists and is initialized, false otherwise
+     */
+    public static boolean initialized() {
+        return INSTANCE != null && INSTANCE.isInitialized;
+    }
+
+    /**
+     * Returns the singleton instance of Utilize.
+     *
+     * @return the initialized Utilize instance
+     * @throws IllegalStateException if Utilize has not been initialized yet
+     */
     public static Utilize getInstance() {
-        if (INSTANCE == null) throw new IllegalStateException("Utilize has not been initialized yet!");
+        if (INSTANCE == null || !INSTANCE.isInitialized) {
+            throw new IllegalStateException("Utilize has not been initialized yet!");
+        }
+
         return INSTANCE;
+    }
+
+    /**
+     * Indicates whether this Utilize instance has completed initialization.
+     *
+     * @return true if initialized, false otherwise
+     */
+    public boolean isInitialized() {
+        return this.isInitialized;
     }
 
     public String getUtilizeVersion() {
