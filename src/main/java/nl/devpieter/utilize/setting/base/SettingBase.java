@@ -45,6 +45,10 @@ public abstract class SettingBase<T> implements ISetting<T> {
 
     @Override
     public void setValue(T value) {
+        if (!allowNull && value == null) {
+            throw new IllegalArgumentException("Null value not allowed for setting: " + identifier);
+        }
+
         this.value = value;
     }
 }
