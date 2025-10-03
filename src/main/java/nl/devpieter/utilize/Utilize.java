@@ -108,6 +108,10 @@ public class Utilize implements ClientModInitializer {
     }
 
     public static String getMinecraftVersion() {
-        return SharedConstants.getGameVersion().getName();
+        //#if MC>=12106
+        return SharedConstants.getGameVersion().name();
+        //#else
+        //$$ return SharedConstants.getGameVersion().getName();
+        //#endif
     }
 }
