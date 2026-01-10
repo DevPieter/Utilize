@@ -3,7 +3,11 @@ package nl.devpieter.utilize.mixins;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import nl.devpieter.sees.Sees;
+import nl.devpieter.utilize.Utilize;
 import nl.devpieter.utilize.events.screen.ScreenChangedEvent;
+import nl.devpieter.utilize.events.tick.ClientTickEvent;
+import nl.devpieter.utilize.events.tick.ClientTickTailEvent;
+import nl.devpieter.utilize.setting.SettingManager;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -20,10 +24,13 @@ public class MinecraftClientMixin {
     public Screen currentScreen;
 
     @Unique
+    private Screen previousScreen;
+
+    @Unique
     private final Sees sees = Sees.getInstance();
 
     @Unique
-    private Screen previousScreen;
+    private SettingManager settingManager;
 
     @Inject(at = @At("HEAD"), method = "setScreen")
     private void onSetScreenHead(Screen screen, CallbackInfo ci) {
@@ -33,5 +40,24 @@ public class MinecraftClientMixin {
     @Inject(at = @At("TAIL"), method = "setScreen")
     private void onSetScreenTail(Screen screen, CallbackInfo ci) {
         this.sees.dispatch(new ScreenChangedEvent(this.previousScreen, screen));
+    }
+
+    @Inject(at = @At("HEAD"), method = "tick")
+    private void onTick(CallbackInfo ci) {
+        this.sees.dispatch(new ClientTickEvent());
+    }
+
+    @Inject(at = @At("TAIL"), method = "tick")
+    private void onTickTail(CallbackInfo ci) {
+        if (settingManager == null) {
+            if (!Utilize.getInstance().isInitialized()) return;
+            settingManager = SettingManager.getInstance();
+        }
+
+        if (settingManager != null) {
+            settingManager.tick();
+        }
+
+        this.sees.dispatch(new ClientTickTailEvent());
     }
 }

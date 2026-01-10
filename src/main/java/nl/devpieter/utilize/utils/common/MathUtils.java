@@ -18,11 +18,11 @@ public class MathUtils {
     }
 
     public static double notNegative(double value) {
-        return value < 0 ? 0 : value;
+        return Math.max(0, value);
     }
 
     public static double notPositive(double value) {
-        return value > 0 ? 0 : value;
+        return Math.min(0, value);
     }
 
     public static double notBelow(double value, double min) {
@@ -34,21 +34,21 @@ public class MathUtils {
     }
 
     /**
-     * @param percentage The percentage to reduce by (0-100).
+     * @param percentage The percentage to reduce by (e.g., 10 for 10%).
      */
     public static double reduceByPercentage(double value, double percentage) {
         return value - (value * (percentage / 100));
     }
 
     /**
-     * @param percentage The percentage to increase by (0-100).
+     * @param percentage The percentage to increase by (e.g., 10 for 10%).
      */
     public static double increaseByPercentage(double value, double percentage) {
         return value + (value * (percentage / 100));
     }
 
     /**
-     * @param percentage The percentage of the value to return (0-100).
+     * @param percentage The percentage of the value to return (e.g., 10 for 10%).
      */
     public static double getPercentage(double value, double percentage) {
         return value * (percentage / 100);

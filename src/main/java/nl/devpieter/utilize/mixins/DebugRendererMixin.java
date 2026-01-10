@@ -20,15 +20,15 @@ public class DebugRendererMixin {
     @Unique
     private final DebugManager debugManager = DebugManager.getInstance();
 
-    @Inject(at = @At("HEAD"), method = "render")
+//    @Inject(at = @At("HEAD"), method = "render")
     //#if MC>=12102
-    private void onRender(MatrixStack matrices, Frustum frustum, VertexConsumerProvider.Immediate vertexConsumers, double cameraX, double cameraY, double cameraZ, CallbackInfo ci) {
+//    private void onRender(MatrixStack matrices, Frustum frustum, VertexConsumerProvider.Immediate vertexConsumers, double cameraX, double cameraY, double cameraZ, CallbackInfo ci) {
     //#else
     //$$ public void render(MatrixStack matrices, VertexConsumerProvider.Immediate vertexConsumers, double cameraX, double cameraY, double cameraZ, CallbackInfo ci) {
     //#endif
 
-        for (DebugRenderer.Renderer renderer : this.debugManager.getRenderers()) {
-            renderer.render(matrices, vertexConsumers, cameraX, cameraY, cameraZ);
-        }
-    }
+//        for (DebugRenderer.Renderer renderer : this.debugManager.getRenderers()) {
+//            renderer.render(matrices, vertexConsumers, cameraX, cameraY, cameraZ);
+//        }
+//    }
 }

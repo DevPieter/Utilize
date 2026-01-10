@@ -10,7 +10,7 @@ def isSnapshot = System.getenv('SNAPSHOT_BUILD')?.toBoolean() ?: false
 def buildNumber = System.getenv('BUILD_NUMBER') ?: 'dev'
 
 group = maven_group
-archivesBaseName = archives_base_name
+//archivesBaseName = archives_base_name
 version = "${mod_version}+${minecraft_version}-${max_minecraft_version}" + (isSnapshot ? "-SNAPSHOT+${buildNumber}" : "")
 
 repositories {
@@ -73,7 +73,8 @@ java {
 
 jar {
     from("LICENSE") {
-        rename { "${it}_${project.archivesBaseName}" }
+        //rename { "${it}_${project.archivesBaseName}" }
+        rename { "${it}_Utilize" }
     }
 }
 

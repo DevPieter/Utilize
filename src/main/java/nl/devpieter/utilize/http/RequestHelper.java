@@ -36,8 +36,15 @@ public abstract class RequestHelper {
     }
 
     public static HttpRequest.Builder createRequestBuilder(@NotNull URI uri) {
+        return createRequestBuilder(uri, Utilize.getInstance().getUserAgent());
+    }
+
+    /**
+     * @see Utilize#getUserAgent(String, String)
+     */
+    public static HttpRequest.Builder createRequestBuilder(@NotNull URI uri, @NotNull String userAgent) {
         return HttpRequest.newBuilder()
-                .header(USER_AGENT_HEADER, Utilize.getInstance().getUserAgent())
+                .header(USER_AGENT_HEADER, userAgent)
                 .header("Content-Type", "application/json")
                 .header("Accept", "application/json")
                 .uri(uri);

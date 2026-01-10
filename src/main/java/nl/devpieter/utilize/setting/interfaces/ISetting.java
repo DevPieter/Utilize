@@ -23,7 +23,13 @@ public interface ISetting<T> {
     }
 
     default boolean isDefaultValueSet() {
-        return !this.getValue().equals(this.getDefault());
+        T value = getValue();
+        T defaultValue = getDefault();
+
+        if (value == null && defaultValue == null) return true;
+        if (value == null || defaultValue == null) return false;
+
+        return value.equals(defaultValue);
     }
 
     default KeyedSetting<T> asKeyedSetting() {
