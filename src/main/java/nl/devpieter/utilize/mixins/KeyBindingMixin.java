@@ -14,8 +14,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(KeyBinding.class)
 public abstract class KeyBindingMixin {
 
-    @Shadow
-    public abstract String getTranslationKey();
+//    @Shadow
+//    public abstract String getTranslationKey();
 
     @Shadow
     private int timesPressed;
@@ -30,16 +30,16 @@ public abstract class KeyBindingMixin {
     private void isPressed(CallbackInfoReturnable<Boolean> cir) {
         if (!cir.getReturnValue()) return;
 
-        if (this.getTranslationKey().equals("key.attack")) this.handleAttackKeyPressed(cir);
-        else if (this.getTranslationKey().equals("key.use")) this.handleUseKeyPressed(cir);
+//        if (this.getTranslationKey().equals("key.attack")) this.handleAttackKeyPressed(cir);
+//        else if (this.getTranslationKey().equals("key.use")) this.handleUseKeyPressed(cir);
     }
 
     @Inject(at = @At("RETURN"), method = "wasPressed", cancellable = true)
     private void wasPressed(CallbackInfoReturnable<Boolean> cir) {
         if (!cir.getReturnValue()) return;
 
-        if (this.getTranslationKey().equals("key.attack")) this.handleAttackKeyPressed(cir);
-        else if (this.getTranslationKey().equals("key.use")) this.handleUseKeyPressed(cir);
+//        if (this.getTranslationKey().equals("key.attack")) this.handleAttackKeyPressed(cir);
+//        else if (this.getTranslationKey().equals("key.use")) this.handleUseKeyPressed(cir);
     }
 
     @Unique

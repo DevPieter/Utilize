@@ -86,7 +86,7 @@ public class Utilize implements ClientModInitializer {
     }
 
     public String getMinecraftVersion() {
-        return SharedConstants.getGameVersion().getName();
+        return SharedConstants.getGameVersion().name();
     }
 
     /**
