@@ -3,7 +3,10 @@ package nl.devpieter.utilize.utils.minecraft;
 import net.minecraft.network.packet.Packet;
 import org.jetbrains.annotations.NotNull;
 
-public class NetworkUtils {
+public final class NetworkUtils {
+
+    private NetworkUtils() {
+    }
 
     public static void sendPacket(@NotNull Packet<?> packet) {
         if (!ClientUtils.hasNetworkHandler()) return;

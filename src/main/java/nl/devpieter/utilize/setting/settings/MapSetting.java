@@ -20,38 +20,38 @@ public class MapSetting<T, V> extends SettingBase<Map<T, V>> implements IMapSett
 
     @Override
     public boolean containsKey(T key) {
-        if (this.getValue() == null) return false;
-        return this.getValue().containsKey(key);
+        if (getValue() == null) return false;
+        return getValue().containsKey(key);
     }
 
     @Override
     public boolean containsValue(V value) {
-        if (this.getValue() == null) return false;
-        return this.getValue().containsValue(value);
+        if (getValue() == null) return false;
+        return getValue().containsValue(value);
     }
 
     @Override
     public V get(T key) {
-        if (this.getValue() == null) return null;
-        return this.getValue().get(key);
+        if (getValue() == null) return null;
+        return getValue().get(key);
     }
 
     @Override
     public void put(T key, V value) {
-        if (this.getValue() == null) throw new IllegalStateException("Map value is null, cannot put element.");
-        this.getValue().put(key, value);
+        if (getValue() == null) throw new IllegalStateException("Map value is null, cannot put element.");
+        getValue().put(key, value);
     }
 
     @Override
     public void remove(T key) {
-        if (this.getValue() == null) throw new IllegalStateException("Map value is null, cannot remove element.");
-        this.getValue().remove(key);
+        if (getValue() == null) throw new IllegalStateException("Map value is null, cannot remove element.");
+        getValue().remove(key);
     }
 
     @Override
     public void clear() {
-        if (this.getValue() == null) throw new IllegalStateException("Map value is null, cannot clear elements.");
-        this.getValue().clear();
+        if (getValue() == null) throw new IllegalStateException("Map value is null, cannot clear elements.");
+        getValue().clear();
     }
 
     @Override

@@ -33,14 +33,15 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 
     @Inject(at = @At("HEAD"), method = "tick")
     private void onTick(CallbackInfo ci) {
-        this.sees.dispatch(new ClientPlayerTickEvent());
+        taskManager.tick(TaskManager.TickPhase.PLAYER_HEAD);
+        sees.dispatch(new ClientPlayerTickEvent());
     }
 
     @Inject(at = @At("TAIL"), method = "tick")
     private void onTickTail(CallbackInfo ci) {
-        this.damageManager.tick(this.getHealth());
-        this.taskManager.tick();
+        damageManager.tick(getHealth());
+        taskManager.tick(TaskManager.TickPhase.PLAYER_TAIL);
 
-        this.sees.dispatch(new ClientPlayerTickTailEvent());
+        sees.dispatch(new ClientPlayerTickTailEvent());
     }
 }

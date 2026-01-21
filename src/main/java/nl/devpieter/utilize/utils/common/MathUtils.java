@@ -5,7 +5,24 @@ import net.minecraft.util.math.Vec3i;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-public class MathUtils {
+import java.time.Duration;
+
+public final class MathUtils {
+
+    private MathUtils() {
+    }
+
+    public static int secondsToTicks(int seconds) {
+        return seconds * 20;
+    }
+
+    public static int ticksToSeconds(int ticks) {
+        return ticks / 20;
+    }
+
+    public static int durationToTicks(Duration duration) {
+        return (int) (duration.toMillis() / 50);
+    }
 
     @Contract("_ -> new")
     public static @NotNull Vec3d from(@NotNull Vec3i vec3i) {

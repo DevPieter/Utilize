@@ -10,7 +10,10 @@ import nl.devpieter.utilize.utils.common.MathUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class WorldUtils {
+public final class WorldUtils {
+
+    private WorldUtils() {
+    }
 
     public static @Nullable BlockState getStateAt(@NotNull Vec3d vec3d) {
         return getStateAt(MathUtils.from(vec3d));

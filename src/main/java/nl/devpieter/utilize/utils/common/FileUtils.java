@@ -2,7 +2,10 @@ package nl.devpieter.utilize.utils.common;
 
 import java.io.File;
 
-public class FileUtils {
+public final class FileUtils {
+
+    private FileUtils() {
+    }
 
     public static boolean doesFileExist(File file) {
         try {

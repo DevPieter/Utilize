@@ -5,7 +5,10 @@ import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 
-public class TextUtils {
+public final class TextUtils {
+
+    private TextUtils() {
+    }
 
     public static MutableText currentOrDefaultStyle(@NotNull Text text, @NotNull Style defaultStyle) {
         return Text.of("").copy().setStyle(defaultStyle).append(text);

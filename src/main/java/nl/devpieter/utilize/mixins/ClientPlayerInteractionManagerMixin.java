@@ -42,117 +42,117 @@ public abstract class ClientPlayerInteractionManagerMixin {
 
     @Inject(at = @At("HEAD"), method = "updateBlockBreakingProgress", cancellable = true)
     private void onUpdateBlockBreakingProgress(BlockPos pos, Direction direction, CallbackInfoReturnable<Boolean> cir) {
-        if (!this.sees.dispatch(new UpdateBlockBreakingProgressEvent(pos, direction))) return;
+        if (!sees.dispatch(new UpdateBlockBreakingProgressEvent(pos, direction))) return;
 
         // TODO - Make not cancelable?
 
-        this.cancelBlockBreaking();
+        cancelBlockBreaking();
         cir.setReturnValue(false);
     }
 
     @Inject(at = @At("HEAD"), method = "attackBlock", cancellable = true)
     private void onAttackBlock(BlockPos pos, Direction direction, CallbackInfoReturnable<Boolean> cir) {
-        if (!this.sees.dispatch(new AttackBlockEvent(pos, direction))) return;
+        if (!sees.dispatch(new AttackBlockEvent(pos, direction))) return;
 
-        this.cancelBlockBreaking();
+        cancelBlockBreaking();
         cir.setReturnValue(false);
     }
 
     @Inject(at = @At("RETURN"), method = "attackBlock", cancellable = true)
     private void onAttackBlockReturn(BlockPos pos, Direction direction, CallbackInfoReturnable<Boolean> cir) {
-        cir.setReturnValue(this.sees.dispatchWithResult(new AttackBlockReturnEvent(pos, direction, cir.getReturnValue())));
+        cir.setReturnValue(sees.dispatchWithResult(new AttackBlockReturnEvent(pos, direction, cir.getReturnValue())));
     }
 
     @Inject(at = @At("TAIL"), method = "attackBlock")
     private void onAttackBlockTail(BlockPos pos, Direction direction, CallbackInfoReturnable<Boolean> cir) {
-        this.sees.dispatch(new AttackBlockTailEvent(pos, direction));
+        sees.dispatch(new AttackBlockTailEvent(pos, direction));
     }
 
     @Inject(at = @At("HEAD"), method = "breakBlock", cancellable = true)
     private void onBreakBlock(BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
-        if (!this.sees.dispatch(new BreakBlockEvent(pos))) return;
+        if (!sees.dispatch(new BreakBlockEvent(pos))) return;
 
-        this.cancelBlockBreaking();
+        cancelBlockBreaking();
         cir.setReturnValue(false);
     }
 
     @Inject(at = @At("RETURN"), method = "breakBlock", cancellable = true)
     private void onBreakBlockReturn(BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
-        cir.setReturnValue(this.sees.dispatchWithResult(new BreakBlockReturnEvent(pos, cir.getReturnValue())));
+        cir.setReturnValue(sees.dispatchWithResult(new BreakBlockReturnEvent(pos, cir.getReturnValue())));
     }
 
     @Inject(at = @At("TAIL"), method = "breakBlock")
     private void onBreakBlockTail(BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
-        this.sees.dispatch(new BreakBlockTailEvent(pos));
+        sees.dispatch(new BreakBlockTailEvent(pos));
     }
 
     @Inject(at = @At("HEAD"), method = "interactBlock", cancellable = true)
     private void onInteractBlock(ClientPlayerEntity player, Hand hand, BlockHitResult hitResult, CallbackInfoReturnable<ActionResult> cir) {
-        if (!this.sees.dispatch(new InteractBlockEvent(hand, hitResult))) return;
+        if (!sees.dispatch(new InteractBlockEvent(hand, hitResult))) return;
         cir.setReturnValue(ActionResult.FAIL);
     }
 
     @Inject(at = @At("RETURN"), method = "interactBlock", cancellable = true)
     private void onInteractBlockReturn(ClientPlayerEntity player, Hand hand, BlockHitResult hitResult, CallbackInfoReturnable<ActionResult> cir) {
-        cir.setReturnValue(this.sees.dispatchWithResult(new InteractBlockReturnEvent(hand, hitResult, cir.getReturnValue())));
+        cir.setReturnValue(sees.dispatchWithResult(new InteractBlockReturnEvent(hand, hitResult, cir.getReturnValue())));
     }
 
     @Inject(at = @At("TAIL"), method = "interactBlock")
     private void onInteractBlockTail(ClientPlayerEntity player, Hand hand, BlockHitResult hitResult, CallbackInfoReturnable<ActionResult> cir) {
-        this.sees.dispatch(new InteractBlockTailEvent(hand, hitResult));
+        sees.dispatch(new InteractBlockTailEvent(hand, hitResult));
     }
 
     @Inject(at = @At("HEAD"), method = "interactItem", cancellable = true)
     private void onInteractItem(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
-        if (!this.sees.dispatch(new InteractItemEvent(hand))) return;
+        if (!sees.dispatch(new InteractItemEvent(hand))) return;
         cir.setReturnValue(ActionResult.FAIL);
     }
 
     @Inject(at = @At("RETURN"), method = "interactItem", cancellable = true)
     private void onInteractItemReturn(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
-        cir.setReturnValue(this.sees.dispatchWithResult(new InteractItemReturnEvent(hand, cir.getReturnValue())));
+        cir.setReturnValue(sees.dispatchWithResult(new InteractItemReturnEvent(hand, cir.getReturnValue())));
     }
 
     @Inject(at = @At("TAIL"), method = "interactItem")
     private void onInteractItemTail(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
-        this.sees.dispatch(new InteractItemTailEvent(hand));
+        sees.dispatch(new InteractItemTailEvent(hand));
     }
 
     @Inject(at = @At("HEAD"), method = "attackEntity", cancellable = true)
     private void onAttackEntity(PlayerEntity player, Entity target, CallbackInfo ci) {
-        if (!this.sees.dispatch(new AttackEntityEvent(target))) return;
+        if (!sees.dispatch(new AttackEntityEvent(target))) return;
         ci.cancel();
     }
 
     @Inject(at = @At("RETURN"), method = "attackEntity")
     private void onAttackEntityReturn(PlayerEntity player, Entity target, CallbackInfo ci) {
-        this.sees.dispatch(new AttackEntityReturnEvent(target));
+        sees.dispatch(new AttackEntityReturnEvent(target));
     }
 
     @Inject(at = @At("TAIL"), method = "attackEntity")
     private void onAttackEntityTail(PlayerEntity player, Entity target, CallbackInfo ci) {
-        this.sees.dispatch(new AttackEntityTailEvent(target));
+        sees.dispatch(new AttackEntityTailEvent(target));
     }
 
     @Inject(at = @At("HEAD"), method = "interactEntity", cancellable = true)
     private void onInteractEntity(PlayerEntity player, Entity target, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
-        if (!this.sees.dispatch(new InteractEntityEvent(target, hand))) return;
+        if (!sees.dispatch(new InteractEntityEvent(target, hand))) return;
         cir.setReturnValue(ActionResult.FAIL);
     }
 
     @Inject(at = @At("RETURN"), method = "interactEntity", cancellable = true)
     private void onInteractEntityReturn(PlayerEntity player, Entity target, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
-        cir.setReturnValue(this.sees.dispatchWithResult(new InteractEntityReturnEvent(target, hand, cir.getReturnValue())));
+        cir.setReturnValue(sees.dispatchWithResult(new InteractEntityReturnEvent(target, hand, cir.getReturnValue())));
     }
 
     @Inject(at = @At("TAIL"), method = "interactEntity")
     private void onInteractEntityTail(PlayerEntity player, Entity target, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
-        this.sees.dispatch(new InteractEntityTailEvent(target, hand));
+        sees.dispatch(new InteractEntityTailEvent(target, hand));
     }
 
     @Inject(at = @At("HEAD"), method = "clickSlot", cancellable = true)
     private void onClickSlot(int syncId, int slotId, int button, SlotActionType actionType, PlayerEntity player, CallbackInfo ci) {
-        if (!this.sees.dispatch(new SlotClickEvent(syncId, slotId, button, actionType))) return;
+        if (!sees.dispatch(new SlotClickEvent(syncId, slotId, button, actionType))) return;
         ci.cancel();
     }
 
@@ -160,14 +160,14 @@ public abstract class ClientPlayerInteractionManagerMixin {
     private void onSyncSelectedSlot(CallbackInfo ci) {
         int slot = InventoryUtils.getSelectedHotbarSlot();
 
-        if (this.lastSelectedHotbarSlot == -1) {
-            this.lastSelectedHotbarSlot = slot;
+        if (lastSelectedHotbarSlot == -1) {
+            lastSelectedHotbarSlot = slot;
             return;
         }
 
-        if (slot == this.lastSelectedHotbarSlot) return;
-        this.lastSelectedHotbarSlot = slot;
+        if (slot == lastSelectedHotbarSlot) return;
+        lastSelectedHotbarSlot = slot;
 
-        this.sees.dispatch(new HotbarSlotChangedEvent(this.lastSelectedHotbarSlot, slot));
+        sees.dispatch(new HotbarSlotChangedEvent(lastSelectedHotbarSlot, slot));
     }
 }

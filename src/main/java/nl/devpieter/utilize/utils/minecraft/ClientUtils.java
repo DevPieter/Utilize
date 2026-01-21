@@ -8,7 +8,10 @@ import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.client.sound.SoundManager;
 import net.minecraft.client.world.ClientWorld;
 
-public class ClientUtils {
+public final class ClientUtils {
+
+    private ClientUtils() {
+    }
 
     public static boolean isDevEnv() {
         return FabricLoader.getInstance().isDevelopmentEnvironment();

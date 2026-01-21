@@ -1,14 +1,8 @@
 package nl.devpieter.utilize.task.interfaces;
 
+import nl.devpieter.utilize.task.TaskManager;
+
 public interface ITask {
 
-    void tick();
-
-    void reset();
-
-    boolean isFinished();
-
-    default boolean resetOnFinish() {
-        return false;
-    }
+    TaskManager.TickResult tick();
 }

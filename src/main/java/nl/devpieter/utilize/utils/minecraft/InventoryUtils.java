@@ -13,7 +13,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InventoryUtils {
+public final class InventoryUtils {
+
+    private InventoryUtils() {
+    }
 
     public static boolean hasInventory() {
         return ClientUtils.hasPlayer() && ClientUtils.getPlayer().getInventory() != null;
