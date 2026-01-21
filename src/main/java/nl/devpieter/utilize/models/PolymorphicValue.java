@@ -17,9 +17,9 @@ public class PolymorphicValue<T> {
     }
 
     public PolymorphicValue(@NotNull T value) {
-        this.className = value.getClass().getName();
-        this.data = gson.toJsonTree(value);
-        this.instance = value;
+        className = value.getClass().getName();
+        data = gson.toJsonTree(value);
+        instance = value;
     }
 
     public T getValue(Class<T> baseType) {
@@ -36,6 +36,6 @@ public class PolymorphicValue<T> {
     }
 
     public void sync() {
-        this.data = gson.toJsonTree(instance);
+        data = gson.toJsonTree(instance);
     }
 }

@@ -24,14 +24,14 @@ public class Utilize implements ClientModInitializer {
         INSTANCE = this;
 
         ClientLifecycleEvents.CLIENT_STOPPING.register((client) -> {
-            this.logger.info("Shutting down Utilize...");
+            logger.info("Shutting down Utilize...");
 
             SettingManager.shutdown();
             AsyncRequest.shutdown();
         });
 
-        this.logger.info("Utilize initialized successfully! Version: {}", this.getUtilizeVersion());
-        this.isInitialized = true;
+        logger.info("Utilize initialized successfully! Version: {}", getUtilizeVersion());
+        isInitialized = true;
     }
 
     /**
@@ -63,11 +63,11 @@ public class Utilize implements ClientModInitializer {
      * @return true if initialized, false otherwise
      */
     public boolean isInitialized() {
-        return this.isInitialized;
+        return isInitialized;
     }
 
     public String getUtilizeVersion() {
-        return this.modContainer.getMetadata().getVersion().getFriendlyString();
+        return modContainer.getMetadata().getVersion().getFriendlyString();
     }
 
     public String getMinecraftVersion() {
@@ -83,8 +83,8 @@ public class Utilize implements ClientModInitializer {
     public String getUserAgent() {
         return String.format(
                 "Utilize/%s (Mc/%s; Java/%s)",
-                this.getUtilizeVersion(),
-                this.getMinecraftVersion(),
+                getUtilizeVersion(),
+                getMinecraftVersion(),
                 System.getProperty("java.version")
         );
     }
@@ -102,8 +102,8 @@ public class Utilize implements ClientModInitializer {
                 "%s/%s (Utilize/%s; Mc/%s; Java/%s)",
                 name,
                 version,
-                this.getUtilizeVersion(),
-                this.getMinecraftVersion(),
+                getUtilizeVersion(),
+                getMinecraftVersion(),
                 System.getProperty("java.version")
         );
     }

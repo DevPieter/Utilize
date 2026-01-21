@@ -21,7 +21,7 @@ public abstract class AsyncRequest<T> extends RequestHelper {
 
     public AsyncRequest(@Nullable ResultConsumer<T> requestCallback) {
         if (requestCallback == null) return;
-        this.callbacks.add(requestCallback);
+        callbacks.add(requestCallback);
     }
 
     public static void shutdown() {
@@ -38,42 +38,42 @@ public abstract class AsyncRequest<T> extends RequestHelper {
 
     public void addCallback(@Nullable ResultConsumer<T> callback) {
         if (callback == null) return;
-        this.callbacks.add(callback);
+        callbacks.add(callback);
     }
 
     public void execute() {
-        if (this.future != null) return;
+        if (future != null) return;
 
-        this.future = CompletableFuture.supplyAsync(() -> {
+        future = CompletableFuture.supplyAsync(() -> {
             try {
                 T result = requestAsync();
-                this.callCallbacks(result, null);
+                callCallbacks(result, null);
                 return result;
             } catch (Exception e) {
-                this.callCallbacks(null, e);
+                callCallbacks(null, e);
                 throw new RuntimeException(e);
             }
         }, EXECUTOR_SERVICE);
     }
 
     public void cancel() {
-        this.future.cancel(true);
+        future.cancel(true);
     }
 
     public boolean isDone() {
-        return this.future.isDone();
+        return future.isDone();
     }
 
     public T get() throws ExecutionException, InterruptedException {
-        return this.future.get();
+        return future.get();
     }
 
     public CompletableFuture<T> getFuture() {
-        return this.future;
+        return future;
     }
 
     private void callCallbacks(@Nullable T result, @Nullable Exception exception) {
-        for (ResultConsumer<T> callback : this.callbacks) {
+        for (ResultConsumer<T> callback : callbacks) {
             if (callback != null) callback.accept(result, exception);
         }
     }
