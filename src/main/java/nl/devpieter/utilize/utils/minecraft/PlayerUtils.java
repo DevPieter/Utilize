@@ -8,7 +8,10 @@ import net.minecraft.util.hit.HitResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class PlayerUtils {
+public final class PlayerUtils {
+
+    private PlayerUtils() {
+    }
 
     public static void sendMessage(@NotNull Text message, boolean overlay) {
         if (!ClientUtils.hasPlayer()) return;

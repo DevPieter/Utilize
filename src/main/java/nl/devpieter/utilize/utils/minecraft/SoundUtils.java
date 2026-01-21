@@ -5,7 +5,10 @@ import net.minecraft.client.sound.SoundInstance;
 import net.minecraft.sound.SoundEvent;
 import org.jetbrains.annotations.NotNull;
 
-public class SoundUtils {
+public final class SoundUtils {
+
+    private SoundUtils() {
+    }
 
     public static void playOnMaster(@NotNull SoundEvent soundEvent) {
         playOnMaster(soundEvent, 1.0F, 1.0F);

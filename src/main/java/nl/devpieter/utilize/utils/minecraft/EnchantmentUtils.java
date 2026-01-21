@@ -12,7 +12,10 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 
-public class EnchantmentUtils {
+public final class EnchantmentUtils {
+
+    private EnchantmentUtils() {
+    }
 
     public static boolean isMaxLevel(@NotNull RegistryEntry<Enchantment> enchantment, int level) {
         return level == enchantment.value().getMaxLevel();

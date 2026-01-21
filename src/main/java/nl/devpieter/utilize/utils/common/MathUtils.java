@@ -7,7 +7,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
 
-public class MathUtils {
+public final class MathUtils {
+
+    private MathUtils() {
+    }
 
     public static int secondsToTicks(int seconds) {
         return seconds * 20;

@@ -1,6 +1,9 @@
 package nl.devpieter.utilize.utils.common;
 
-public class RandomUtils {
+public final class RandomUtils {
+
+    private RandomUtils() {
+    }
 
     /**
      * @param chanceForTrue The chance to return true (0 to 100).
