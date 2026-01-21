@@ -7,9 +7,9 @@
     "ChatHudMixin",
     "ClientPlayerEntityMixin",
     "ClientPlayerInteractionManagerMixin",
-    "DebugRendererMixin",
     "KeyBindingMixin",
-    "MinecraftClientMixin"
+    "MinecraftClientMixin",
+    "accessors.DebugRendererAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
