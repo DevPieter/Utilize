@@ -8,6 +8,7 @@ import nl.devpieter.utilize.events.screen.ScreenChangedEvent;
 import nl.devpieter.utilize.events.tick.ClientTickEvent;
 import nl.devpieter.utilize.events.tick.ClientTickTailEvent;
 import nl.devpieter.utilize.setting.SettingManager;
+import nl.devpieter.utilize.task.TaskManager;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -32,32 +33,50 @@ public class MinecraftClientMixin {
     @Unique
     private SettingManager settingManager;
 
+    @Unique
+    private TaskManager taskManager;
+
     @Inject(at = @At("HEAD"), method = "setScreen")
     private void onSetScreenHead(Screen screen, CallbackInfo ci) {
-        this.previousScreen = this.currentScreen;
+        previousScreen = currentScreen;
     }
 
     @Inject(at = @At("TAIL"), method = "setScreen")
     private void onSetScreenTail(Screen screen, CallbackInfo ci) {
-        this.sees.dispatch(new ScreenChangedEvent(this.previousScreen, screen));
+        sees.dispatch(new ScreenChangedEvent(previousScreen, screen));
     }
 
     @Inject(at = @At("HEAD"), method = "tick")
     private void onTick(CallbackInfo ci) {
-        this.sees.dispatch(new ClientTickEvent());
+        tryInitializeManagers();
+
+        if (taskManager != null) {
+            taskManager.beginTick();
+            taskManager.tick(TaskManager.TickPhase.CLIENT_HEAD);
+        }
+
+        sees.dispatch(new ClientTickEvent());
     }
 
     @Inject(at = @At("TAIL"), method = "tick")
     private void onTickTail(CallbackInfo ci) {
+        if (settingManager != null) settingManager.tick();
+        if (taskManager != null) taskManager.tick(TaskManager.TickPhase.CLIENT_TAIL);
+
+        sees.dispatch(new ClientTickTailEvent());
+    }
+
+    @Unique
+    private void tryInitializeManagers() {
+        if (settingManager != null || taskManager != null) return;
+        if (!Utilize.getInstance().isInitialized()) return;
+
         if (settingManager == null) {
-            if (!Utilize.getInstance().isInitialized()) return;
             settingManager = SettingManager.getInstance();
         }
 
-        if (settingManager != null) {
-            settingManager.tick();
+        if (taskManager == null) {
+            taskManager = TaskManager.getInstance();
         }
-
-        this.sees.dispatch(new ClientTickTailEvent());
     }
 }

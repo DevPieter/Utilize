@@ -16,9 +16,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public class SettingManager {
+public final class SettingManager {
 
-    private static SettingManager INSTANCE;
+    private static final SettingManager INSTANCE = new SettingManager();
 
     private final Gson gson = new Gson();
     private final Logger logger = LoggerFactory.getLogger("Utilize - SettingManager");
@@ -33,39 +33,35 @@ public class SettingManager {
     }
 
     public static SettingManager getInstance() {
-        if (INSTANCE == null) INSTANCE = new SettingManager();
         return INSTANCE;
     }
 
     public static void shutdown() {
-        if (INSTANCE == null) return;
-
         INSTANCE.forceSaveQueue();
-        INSTANCE = null;
     }
 
     public void tick() {
-        if (this.saveQueue.isEmpty()) return;
+        if (saveQueue.isEmpty()) return;
 
         long currentTime = System.currentTimeMillis();
-        if (currentTime - this.lastSaveTime < this.saveInterval.toMillis()) return;
+        if (currentTime - lastSaveTime < saveInterval.toMillis()) return;
 
-        if (this.saveFuture != null && !this.saveFuture.isDone()) return;
+        if (saveFuture != null && !saveFuture.isDone()) return;
 
-        this.saveFuture = CompletableFuture.supplyAsync(() -> {
-            int files = this.saveQueue.size();
-            int size = this.saveQueue.values().stream().mapToInt(List::size).sum();
-            this.logger.info("Starting periodic 'setting batch save' for {} files and {} settings", files, size);
+        saveFuture = CompletableFuture.supplyAsync(() -> {
+            int files = saveQueue.size();
+            int size = saveQueue.values().stream().mapToInt(List::size).sum();
+            logger.info("Starting periodic 'setting batch save' for {} files and {} settings", files, size);
 
-            for (String path : this.saveQueue.keySet()) {
+            for (String path : saveQueue.keySet()) {
                 File file = new File(path);
 
-                if (this.saveBatchToFile(file, this.saveQueue.get(path))) continue;
-                this.logger.error("Failed to save settings batch to file: {}", file.getAbsolutePath());
+                if (saveBatchToFile(file, saveQueue.get(path))) continue;
+                logger.error("Failed to save settings batch to file: {}", file.getAbsolutePath());
             }
 
-            this.lastSaveTime = currentTime;
-            this.saveQueue.clear();
+            lastSaveTime = currentTime;
+            saveQueue.clear();
             return true;
         });
     }
@@ -74,11 +70,11 @@ public class SettingManager {
         String path = file.getAbsolutePath();
         KeyedSetting<?> keyedSetting = setting.asKeyedSetting();
 
-        List<KeyedSetting<?>> settingsList = this.saveQueue.getOrDefault(path, new ArrayList<>());
+        List<KeyedSetting<?>> settingsList = saveQueue.getOrDefault(path, new ArrayList<>());
         settingsList.removeIf(s -> s.key().equals(keyedSetting.key()));
         settingsList.add(keyedSetting);
 
-        this.saveQueue.put(path, settingsList);
+        saveQueue.put(path, settingsList);
         return true;
     }
 
@@ -86,37 +82,37 @@ public class SettingManager {
         boolean success = true;
 
         for (ISetting<?> setting : settings) {
-            if (!this.queueSave(file, setting)) success = false;
+            if (!queueSave(file, setting)) success = false;
         }
 
         return success;
     }
 
     public void forceSaveQueue() {
-        if (this.saveQueue.isEmpty()) return;
+        if (saveQueue.isEmpty()) return;
 
-        int files = this.saveQueue.size();
-        int size = this.saveQueue.values().stream().mapToInt(List::size).sum();
-        this.logger.info("Forced starting 'setting batch save' for {} files and {} settings", files, size);
+        int files = saveQueue.size();
+        int size = saveQueue.values().stream().mapToInt(List::size).sum();
+        logger.info("Forced starting 'setting batch save' for {} files and {} settings", files, size);
 
-        for (String path : this.saveQueue.keySet()) {
+        for (String path : saveQueue.keySet()) {
             File file = new File(path);
 
-            if (this.saveBatchToFile(file, this.saveQueue.get(path))) continue;
-            this.logger.error("Failed to force save settings batch to file: {}", file.getAbsolutePath());
+            if (saveBatchToFile(file, saveQueue.get(path))) continue;
+            logger.error("Failed to force save settings batch to file: {}", file.getAbsolutePath());
         }
 
-        this.saveQueue.clear();
+        saveQueue.clear();
     }
 
     public <T> boolean loadSetting(@NotNull File file, @NotNull ISetting<T> setting) {
-        List<KeyedSetting<?>> batch = this.readBatchFromFile(file);
-        return this.loadSettingFromBatch(setting, batch);
+        List<KeyedSetting<?>> batch = readBatchFromFile(file);
+        return loadSettingFromBatch(setting, batch);
     }
 
     public boolean loadSettings(@NotNull File file, @NotNull List<ISetting<?>> settings) {
-        List<KeyedSetting<?>> batch = this.readBatchFromFile(file);
-        for (ISetting<?> setting : settings) this.loadSettingFromBatch(setting, batch);
+        List<KeyedSetting<?>> batch = readBatchFromFile(file);
+        for (ISetting<?> setting : settings) loadSettingFromBatch(setting, batch);
         return true;
     }
 
@@ -129,19 +125,19 @@ public class SettingManager {
         for (KeyedSetting<?> keyedSetting : batch) {
             if (!keyedSetting.key().equals(setting.getIdentifier())) continue;
 
-            JsonElement jsonElement = this.gson.toJsonTree(keyedSetting.value());
-            T value = this.gson.fromJson(jsonElement, setting.getType());
+            JsonElement jsonElement = gson.toJsonTree(keyedSetting.value());
+            T value = gson.fromJson(jsonElement, setting.getType());
 
             setting.setValue(setting.shouldAllowNull() ? value : value != null ? value : setting.getDefault());
             return true;
         }
 
-        this.logger.warn("Failed to load setting: {} from batch", setting.getIdentifier());
+        logger.warn("Failed to load setting: {} from batch", setting.getIdentifier());
         return false;
     }
 
     private boolean saveBatchToFile(@NotNull File file, @NotNull List<KeyedSetting<?>> settings) {
-        List<KeyedSetting<?>> currentSettings = this.readBatchFromFile(file);
+        List<KeyedSetting<?>> currentSettings = readBatchFromFile(file);
         if (currentSettings == null) currentSettings = new ArrayList<>();
 
         HashMap<String, KeyedSetting<?>> settingsMap = new HashMap<>();
@@ -156,20 +152,20 @@ public class SettingManager {
         currentSettings = new ArrayList<>(settingsMap.values());
 
         try (FileWriter writer = new FileWriter(file)) {
-            this.gson.toJson(currentSettings, writer);
+            gson.toJson(currentSettings, writer);
             return true;
         } catch (IOException e) {
-            this.logger.error("Failed to save settings batch to file: {}", file.getAbsolutePath(), e);
+            logger.error("Failed to save settings batch to file: {}", file.getAbsolutePath(), e);
             return false;
         }
     }
 
     private @Nullable List<KeyedSetting<?>> readBatchFromFile(@NotNull File file) {
         try (Reader reader = new FileReader(file)) {
-            return this.gson.fromJson(reader, new TypeToken<List<KeyedSetting<?>>>() {
+            return gson.fromJson(reader, new TypeToken<List<KeyedSetting<?>>>() {
             }.getType());
         } catch (IOException e) {
-            this.logger.error("Failed to read settings batch from file: {}", file.getAbsolutePath(), e);
+            logger.error("Failed to read settings batch from file: {}", file.getAbsolutePath(), e);
             return null;
         }
     }

@@ -6,9 +6,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DebugManager {
+public final class DebugManager {
 
-    private static DebugManager INSTANCE;
+    private static final DebugManager INSTANCE = new DebugManager();
 
     private final List<DebugRenderer.Renderer> renderers = new ArrayList<>();
 
@@ -16,20 +16,19 @@ public class DebugManager {
     }
 
     public static DebugManager getInstance() {
-        if (INSTANCE == null) INSTANCE = new DebugManager();
         return INSTANCE;
     }
 
     public void addRenderer(@NotNull DebugRenderer.Renderer renderer) {
-        if (this.renderers.contains(renderer)) return;
-        this.renderers.add(renderer);
+        if (renderers.contains(renderer)) return;
+        renderers.add(renderer);
     }
 
     public void removeRenderer(@NotNull DebugRenderer.Renderer renderer) {
-        this.renderers.remove(renderer);
+        renderers.remove(renderer);
     }
 
     public List<DebugRenderer.Renderer> getRenderers() {
-        return this.renderers;
+        return renderers;
     }
 }
