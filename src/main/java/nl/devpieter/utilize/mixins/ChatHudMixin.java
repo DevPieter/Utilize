@@ -33,12 +33,12 @@ public abstract class ChatHudMixin {
     protected abstract void addMessage(ChatHudLine message);
 
     @Unique
-    private final Sees sees = Sees.getInstance();
+    private final Sees sees = Sees.getSharedInstance();
 
     @Inject(at = @At("HEAD"), method = "addMessage(Lnet/minecraft/text/Text;Lnet/minecraft/network/message/MessageSignatureData;Lnet/minecraft/client/gui/hud/MessageIndicator;)V", cancellable = true)
     public void onAddMessage(Text message, MessageSignatureData signatureData, MessageIndicator indicator, CallbackInfo ci) {
-        ReceiveMessageEvent event = new ReceiveMessageEvent(message);
-        Text result = this.sees.callWithResult(event);
+        ReceiveMessageEvent event = new ReceiveMessageEvent(message); // rename to ChatHudMessageAddEvent, or something similar
+        Text result = sees.dispatchWithResult(event);
 
         if (event.isCancelled()) {
             ci.cancel();
@@ -46,10 +46,10 @@ public abstract class ChatHudMixin {
         }
 
         // TODO - Optimize
-        ChatHudLine chatHudLine = new ChatHudLine(this.client.inGameHud.getTicks(), result, signatureData, indicator);
-        this.logChatMessage(chatHudLine);
-        this.addVisibleMessage(chatHudLine);
-        this.addMessage(chatHudLine);
+        ChatHudLine chatHudLine = new ChatHudLine(client.inGameHud.getTicks(), result, signatureData, indicator);
+        logChatMessage(chatHudLine);
+        addVisibleMessage(chatHudLine);
+        addMessage(chatHudLine);
 
         ci.cancel();
     }

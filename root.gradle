@@ -1,17 +1,16 @@
 plugins {
-    id 'fabric-loom' version '1.11-SNAPSHOT' apply false
-    id 'com.replaymod.preprocess' version '79307437eb'
+    id 'fabric-loom' version '1.14-SNAPSHOT' apply false
+//    id 'com.replaymod.preprocess' version '79307437eb'
+    id 'com.replaymod.preprocess' version '521df70941'
 }
 
 preprocess {
-    def mc12109 = createNode('1.21.9', 12109, "yarn")
-    def mc12106 = createNode('1.21.6', 12106, "yarn")
-    def mc12105 = createNode('1.21.5', 12105, "yarn")
-    def mc12102 = createNode('1.21.2', 12102, "yarn")
-    def mc12100 = createNode('1.21.0', 12100, "yarn")
+//    def mc12105 = createNode('1.21.5', 12105, "yarn")
+//    def mc12102 = createNode('1.21.2', 12102, "yarn")
+//    def mc12100 = createNode('1.21.0', 12100, "yarn")
 
-    mc12109.link(mc12106, null)
-    mc12106.link(mc12105, null)
-    mc12105.link(mc12102, null)
-    mc12102.link(mc12100, null)
+//    mc12105.link(mc12102, null)
+//    mc12102.link(mc12100, null)
+
+    def mc12109 = createNode('1.21.9', 12109, "yarn")
 }

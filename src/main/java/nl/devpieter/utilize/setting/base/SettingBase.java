@@ -25,26 +25,30 @@ public abstract class SettingBase<T> implements ISetting<T> {
 
     @Override
     public String getIdentifier() {
-        return this.identifier;
+        return identifier;
     }
 
     @Override
     public boolean shouldAllowNull() {
-        return this.allowNull;
+        return allowNull;
     }
 
     @Override
     public T getValue() {
-        return this.value;
+        return value;
     }
 
     @Override
     public T getDefault() {
-        return this.defaultValue;
+        return defaultValue;
     }
 
     @Override
     public void setValue(T value) {
+        if (!allowNull && value == null) {
+            throw new IllegalArgumentException("Null value not allowed for setting: " + identifier);
+        }
+
         this.value = value;
     }
 }

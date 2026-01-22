@@ -5,113 +5,106 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.SharedConstants;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
 import nl.devpieter.utilize.http.AsyncRequest;
-import nl.devpieter.utilize.listeners.packet.EntityTrackerUpdatePacketListener;
-import nl.devpieter.utilize.listeners.packet.OpenScreenPacketListener;
-import nl.devpieter.utilize.listeners.packet.SetTradeOffersPacketListener;
-import nl.devpieter.utilize.managers.PacketManager;
 import nl.devpieter.utilize.setting.SettingManager;
-import nl.devpieter.utilize.utils.ClientUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Utilize implements ClientModInitializer {
 
     private static Utilize INSTANCE;
-    private static boolean INITIALIZED = false;
 
-    private static final ModContainer MOD_CONTAINER = FabricLoader.getInstance().getModContainer("utilize").orElseThrow();
+    private final Logger logger = LoggerFactory.getLogger("Utilize");
+    private final ModContainer modContainer = FabricLoader.getInstance().getModContainer("utilize").orElseThrow();
 
-    @Deprecated(since = "1.0.11", forRemoval = true)
-    public static final Logger LOGGER = LoggerFactory.getLogger("Utilize");
-
-    private static boolean BLOCK_SWING_HAND_ONCE = false;
-    private static final List<Integer> BLOCK_SCREEN_IDS = new ArrayList<>();
+    private boolean isInitialized;
 
     @Override
     public void onInitializeClient() {
         INSTANCE = this;
 
-        PacketManager packetManager = PacketManager.getInstance();
-        packetManager.subscribe(new EntityTrackerUpdatePacketListener());
-        packetManager.subscribe(new OpenScreenPacketListener());
-        packetManager.subscribe(new SetTradeOffersPacketListener());
-
         ClientLifecycleEvents.CLIENT_STOPPING.register((client) -> {
-            LOGGER.info("Shutting down Utilize...");
+            logger.info("Shutting down Utilize...");
 
             SettingManager.shutdown();
             AsyncRequest.shutdown();
         });
 
-        INITIALIZED = true;
+        logger.info("Utilize initialized successfully! Version: {}", getUtilizeVersion());
+        isInitialized = true;
     }
 
+    /**
+     * Checks if Utilize has been initialized.
+     *
+     * @return true if the mod instance exists and is initialized, false otherwise
+     */
+    public static boolean initialized() {
+        return INSTANCE != null && INSTANCE.isInitialized;
+    }
+
+    /**
+     * Returns the singleton instance of Utilize.
+     *
+     * @return the initialized Utilize instance
+     * @throws IllegalStateException if Utilize has not been initialized yet
+     */
     public static Utilize getInstance() {
-        if (INSTANCE == null) throw new IllegalStateException("Utilize has not been initialized yet!");
+        if (INSTANCE == null || !INSTANCE.isInitialized) {
+            throw new IllegalStateException("Utilize has not been initialized yet!");
+        }
+
         return INSTANCE;
     }
 
-    public static boolean isInitialized() {
-        return INITIALIZED;
+    /**
+     * Indicates whether this Utilize instance has completed initialization.
+     *
+     * @return true if initialized, false otherwise
+     */
+    public boolean isInitialized() {
+        return isInitialized;
     }
 
-    @Deprecated(since = "1.0.11", forRemoval = true)
-    public static boolean shouldBlockSwingHandOnce() {
-        return BLOCK_SWING_HAND_ONCE;
+    public String getUtilizeVersion() {
+        return modContainer.getMetadata().getVersion().getFriendlyString();
     }
 
-    @Deprecated(since = "1.0.11", forRemoval = true)
-    public static void blockSwingHandOnce() {
-        BLOCK_SWING_HAND_ONCE = true;
-    }
-
-    @Deprecated(since = "1.0.11", forRemoval = true)
-    public static void blockedSwingHandOnce() {
-        BLOCK_SWING_HAND_ONCE = false;
-    }
-
-    @Deprecated(since = "1.0.11, refactor", forRemoval = true)
-    public static boolean shouldBlockScreenId(int screenId) {
-        return BLOCK_SCREEN_IDS.contains(screenId);
-    }
-
-    @Deprecated(since = "1.0.11, refactor", forRemoval = true)
-    public static void blockScreenId(int screenId) {
-        if (BLOCK_SCREEN_IDS.contains(screenId)) return;
-        BLOCK_SCREEN_IDS.add(screenId);
-
-        if (!ClientUtils.hasPlayer()) return;
-        MinecraftClient client = MinecraftClient.getInstance();
-        ClientPlayerEntity player = ClientUtils.getPlayer();
-
-        client.execute(() -> {
-            if (player == null || player.currentScreenHandler.syncId != screenId) return;
-
-            player.closeHandledScreen();
-            blockedScreenId(screenId);
-        });
-    }
-
-    @Deprecated(since = "1.0.11, refactor", forRemoval = true)
-    public static void blockedScreenId(int screenId) {
-        BLOCK_SCREEN_IDS.removeIf(id -> id == screenId);
-    }
-
-    public static String getUtilizeVersion() {
-        return MOD_CONTAINER.getMetadata().getVersion().getFriendlyString();
-    }
-
-    public static String getMinecraftVersion() {
-        //#if MC>=12106
+    public String getMinecraftVersion() {
         return SharedConstants.getGameVersion().name();
-        //#else
-        //$$ return SharedConstants.getGameVersion().getName();
-        //#endif
+    }
+
+    /**
+     * Constructs a default User-Agent string for Utilize.
+     * The format is: "Utilize/{utilizeVersion} (Mc/{minecraftVersion}; Java/{javaVersion})"
+     *
+     * @return the User-Agent string containing Utilize, Minecraft, and Java versions
+     */
+    public String getUserAgent() {
+        return String.format(
+                "Utilize/%s (Mc/%s; Java/%s)",
+                getUtilizeVersion(),
+                getMinecraftVersion(),
+                System.getProperty("java.version")
+        );
+    }
+
+    /**
+     * Constructs a custom User-Agent string with the provided name and version.
+     * The format is: "{name}/{version} (Utilize/{utilizeVersion}; Mc/{minecraftVersion}; Java/{javaVersion})"
+     *
+     * @param name    the name to include in the User-Agent
+     * @param version the version to include in the User-Agent
+     * @return the User-Agent string containing the custom name/version, Utilize, Minecraft, and Java versions
+     */
+    public String getUserAgent(String name, String version) {
+        return String.format(
+                "%s/%s (Utilize/%s; Mc/%s; Java/%s)",
+                name,
+                version,
+                getUtilizeVersion(),
+                getMinecraftVersion(),
+                System.getProperty("java.version")
+        );
     }
 }

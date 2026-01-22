@@ -19,14 +19,20 @@ public interface ISetting<T> {
     void setValue(T value);
 
     default void reset() {
-        this.setValue(this.getDefault());
+        setValue(getDefault());
     }
 
     default boolean isDefaultValueSet() {
-        return !this.getValue().equals(this.getDefault());
+        T value = getValue();
+        T defaultValue = getDefault();
+
+        if (value == null && defaultValue == null) return true;
+        if (value == null || defaultValue == null) return false;
+
+        return value.equals(defaultValue);
     }
 
     default KeyedSetting<T> asKeyedSetting() {
-        return new KeyedSetting<>(this.getIdentifier(), this.getValue());
+        return new KeyedSetting<>(getIdentifier(), getValue());
     }
 }
