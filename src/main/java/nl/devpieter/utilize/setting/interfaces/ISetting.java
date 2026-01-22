@@ -19,7 +19,7 @@ public interface ISetting<T> {
     void setValue(T value);
 
     default void reset() {
-        this.setValue(this.getDefault());
+        setValue(getDefault());
     }
 
     default boolean isDefaultValueSet() {
@@ -33,6 +33,6 @@ public interface ISetting<T> {
     }
 
     default KeyedSetting<T> asKeyedSetting() {
-        return new KeyedSetting<>(this.getIdentifier(), this.getValue());
+        return new KeyedSetting<>(getIdentifier(), getValue());
     }
 }
