@@ -38,7 +38,7 @@ public abstract class ClientPlayerInteractionManagerMixin {
     private int lastSelectedHotbarSlot = -1;
 
     @Unique
-    private final Sees sees = Sees.getInstance();
+    private final Sees sees = Sees.getSharedInstance();
 
     @Inject(at = @At("HEAD"), method = "updateBlockBreakingProgress", cancellable = true)
     private void onUpdateBlockBreakingProgress(BlockPos pos, Direction direction, CallbackInfoReturnable<Boolean> cir) {

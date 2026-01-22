@@ -6,38 +6,32 @@ plugins {
 
 def targetJavaVersion = 21
 
-def isSnapshot = System.getenv('SNAPSHOT_BUILD')?.toBoolean() ?: false
+def isSnapshot = providers.environmentVariable("SNAPSHOT_BUILD").map { it.toBoolean() }.orElse(false).get()
 def buildNumber = System.getenv('BUILD_NUMBER') ?: 'dev'
 
 group = maven_group
-//archivesBaseName = archives_base_name
 version = "${mod_version}+${minecraft_version}-${max_minecraft_version}" + (isSnapshot ? "-SNAPSHOT+${buildNumber}" : "")
 
-repositories {
-    repositories {
-        maven {
-            name "Pietr Space Releases"
-            url "https://maven.pietr.space/releases"
-        }
-    }
+base {
+    archivesName = archives_base_name
+}
 
-    repositories {
-        maven {
-            name "Pietr Space Snapshots"
-            url "https://maven.pietr.space/snapshots"
-        }
+repositories {
+    maven {
+        name "Pietr Space Releases"
+        url "https://maven.pietr.space/releases"
     }
 }
 
 dependencies {
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    minecraft "com.mojang:minecraft:${minecraft_version}"
+    mappings "net.fabricmc:yarn:${yarn_mappings}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${loader_version}"
 
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
 
-    implementation "nl.devpieter:sees:1.2.0-dd2c322-SNAPSHOT"
-    include "nl.devpieter:sees:1.2.0-dd2c322-SNAPSHOT"
+    implementation "nl.devpieter:sees:1.2.1"
+    include "nl.devpieter:sees:1.2.1"
 }
 
 preprocess {
@@ -61,8 +55,7 @@ processResources {
 }
 
 tasks.withType(JavaCompile).configureEach {
-    it.options.encoding = "UTF-8"
-    it.options.release.set(targetJavaVersion)
+    options.encoding = "UTF-8"
 }
 
 java {
@@ -73,8 +66,7 @@ java {
 
 jar {
     from("LICENSE") {
-        //rename { "${it}_${project.archivesBaseName}" }
-        rename { "${it}_Utilize" }
+        rename { "${it}_${base.archivesName.get()}" }
     }
 }
 
@@ -87,10 +79,10 @@ publishing {
     }
     repositories {
         maven {
-            url = findProperty('mavenRepositoryUrl')
+            url = uri(providers.gradleProperty("mavenRepositoryUrl").orNull ?: "http://localhost:8081/releases/nl/devpieter/utilize")
             credentials {
-                username = findProperty('mavenRepositoryUsername')
-                password = findProperty('mavenRepositoryPassword')
+                username = providers.gradleProperty("mavenRepositoryUsername").orNull
+                password = providers.gradleProperty("mavenRepositoryPassword").orNull
             }
         }
     }

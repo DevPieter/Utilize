@@ -28,7 +28,7 @@ public class MinecraftClientMixin {
     private Screen previousScreen;
 
     @Unique
-    private final Sees sees = Sees.getInstance();
+    private final Sees sees = Sees.getSharedInstance();
 
     @Unique
     private SettingManager settingManager;
@@ -66,6 +66,10 @@ public class MinecraftClientMixin {
         sees.dispatch(new ClientTickTailEvent());
     }
 
+    /**
+     * We need to initialize the managers here because Utilize may not be fully initialized
+     * when MinecraftClient is being constructed, leading to potential null references.
+     */
     @Unique
     private void tryInitializeManagers() {
         if (settingManager != null || taskManager != null) return;
