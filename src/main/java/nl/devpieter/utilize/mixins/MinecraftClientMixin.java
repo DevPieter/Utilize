@@ -5,7 +5,10 @@ import net.minecraft.client.gui.screen.Screen;
 import nl.devpieter.sees.Sees;
 import nl.devpieter.utilize.Utilize;
 import nl.devpieter.utilize.events.screen.ScreenChangedEvent;
+import nl.devpieter.utilize.events.tick.ClientTickEvent;
+import nl.devpieter.utilize.events.tick.ClientTickTailEvent;
 import nl.devpieter.utilize.setting.SettingManager;
+import nl.devpieter.utilize.task.TaskManager;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -22,33 +25,62 @@ public class MinecraftClientMixin {
     public Screen currentScreen;
 
     @Unique
-    private final Sees sees = Sees.getInstance();
+    private Screen previousScreen;
+
+    @Unique
+    private final Sees sees = Sees.getSharedInstance();
 
     @Unique
     private SettingManager settingManager;
 
     @Unique
-    private Screen previousScreen;
+    private TaskManager taskManager;
 
     @Inject(at = @At("HEAD"), method = "setScreen")
     private void onSetScreenHead(Screen screen, CallbackInfo ci) {
-        this.previousScreen = this.currentScreen;
+        previousScreen = currentScreen;
     }
 
     @Inject(at = @At("TAIL"), method = "setScreen")
     private void onSetScreenTail(Screen screen, CallbackInfo ci) {
-        this.sees.call(new ScreenChangedEvent(this.previousScreen, screen));
+        sees.dispatch(new ScreenChangedEvent(previousScreen, screen));
+    }
+
+    @Inject(at = @At("HEAD"), method = "tick")
+    private void onTick(CallbackInfo ci) {
+        tryInitializeManagers();
+
+        if (taskManager != null) {
+            taskManager.beginTick();
+            taskManager.tick(TaskManager.TickPhase.CLIENT_HEAD);
+        }
+
+        sees.dispatch(new ClientTickEvent());
     }
 
     @Inject(at = @At("TAIL"), method = "tick")
-    private void onTick(CallbackInfo ci) {
+    private void onTickTail(CallbackInfo ci) {
+        if (settingManager != null) settingManager.tick();
+        if (taskManager != null) taskManager.tick(TaskManager.TickPhase.CLIENT_TAIL);
+
+        sees.dispatch(new ClientTickTailEvent());
+    }
+
+    /**
+     * We need to initialize the managers here because Utilize may not be fully initialized
+     * when MinecraftClient is being constructed, leading to potential null references.
+     */
+    @Unique
+    private void tryInitializeManagers() {
+        if (settingManager != null || taskManager != null) return;
+        if (!Utilize.getInstance().isInitialized()) return;
+
         if (settingManager == null) {
-            if (!Utilize.isInitialized()) return;
             settingManager = SettingManager.getInstance();
         }
 
-        if (settingManager != null) {
-            settingManager.tick();
+        if (taskManager == null) {
+            taskManager = TaskManager.getInstance();
         }
     }
 }

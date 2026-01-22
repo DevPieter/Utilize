@@ -16,17 +16,17 @@ public class BooleanSetting extends SettingBase<Boolean> implements IBooleanSett
 
     @Override
     public void toggle() {
-        if (this.getValue() == null) throw new IllegalStateException("Cannot toggle a null value. Use setValue() instead.");
-        this.setValue(!this.getValue());
+        if (getValue() == null) throw new IllegalStateException("Cannot toggle a null value. Use setValue() instead.");
+        setValue(!getValue());
     }
 
     @Override
     public void setTrue() {
-        this.setValue(true);
+        setValue(true);
     }
 
     @Override
     public void setFalse() {
-        this.setValue(false);
+        setValue(false);
     }
 }

@@ -7,13 +7,14 @@
     "ChatHudMixin",
     "ClientPlayerEntityMixin",
     "ClientPlayerInteractionManagerMixin",
-    "DebugRendererMixin",
+    "KeyBindingMixin",
     "MinecraftClientMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "mixins": [
-    "ClientConnectionMixin"
+    "ClientConnectionMixin",
+    "SeesMixin"
   ]
 }

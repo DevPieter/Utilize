@@ -8,8 +8,8 @@ assignees: ''
 ---
 
 **Version**
-- Minecraft Version [e.g. 1.2.3]
-- Mod Version [e.g. 1.0.0+1.21.4-1.21.8]
+ - Mod Version [e.g. 1.21.1]
+ - Minecraft Version [e.g. 1.2.3]
 
 **Describe the bug**
 A clear and concise description of what the bug is.

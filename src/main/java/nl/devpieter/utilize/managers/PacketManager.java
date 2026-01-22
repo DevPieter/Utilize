@@ -6,9 +6,9 @@ import nl.devpieter.utilize.listeners.packet.IPacketListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PacketManager {
+public final class PacketManager {
 
-    private static PacketManager INSTANCE;
+    private static final PacketManager INSTANCE = new PacketManager();
 
     private final List<IPacketListener<?>> listeners = new ArrayList<>();
 
@@ -16,16 +16,15 @@ public class PacketManager {
     }
 
     public static PacketManager getInstance() {
-        if (INSTANCE == null) INSTANCE = new PacketManager();
         return INSTANCE;
     }
 
     public void subscribe(IPacketListener<?> listener) {
-        this.listeners.add(listener);
+        listeners.add(listener);
     }
 
     public void unsubscribe(IPacketListener<?> listener) {
-        this.listeners.remove(listener);
+        listeners.remove(listener);
     }
 
     public boolean packetReceived(Packet<?> packet) {

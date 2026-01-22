@@ -19,50 +19,50 @@ public class ListSetting<T> extends SettingBase<List<T>> implements IListSetting
 
     @Override
     public boolean contains(T value) {
-        if (this.getValue() == null) return false;
-        return this.getValue().contains(value);
+        if (getValue() == null) return false;
+        return getValue().contains(value);
     }
 
     @Override
     public void add(T value) {
-        if (this.getValue() == null) throw new IllegalStateException("List value is null, cannot add element.");
-        this.getValue().add(value);
+        if (getValue() == null) throw new IllegalStateException("List value is null, cannot add element.");
+        getValue().add(value);
     }
 
     @Override
     public void remove(T value) {
-        if (this.getValue() == null) throw new IllegalStateException("List value is null, cannot remove element.");
-        this.getValue().remove(value);
+        if (getValue() == null) throw new IllegalStateException("List value is null, cannot remove element.");
+        getValue().remove(value);
     }
 
     @Override
     public void removeAt(int index) {
-        if (this.getValue() == null) throw new IllegalStateException("List value is null, cannot remove element at index.");
-        if (index < 0 || index >= this.getValue().size()) throw new IndexOutOfBoundsException("Index out of bounds for list.");
+        if (getValue() == null) throw new IllegalStateException("List value is null, cannot remove element at index.");
+        if (index < 0 || index >= getValue().size()) throw new IndexOutOfBoundsException("Index out of bounds for list.");
 
-        this.getValue().remove(index);
+        getValue().remove(index);
     }
 
     @Override
     public void removeFirst() {
-        if (this.getValue() == null) throw new IllegalStateException("List value is null, cannot remove first element.");
-        if (this.getValue().isEmpty()) throw new IllegalStateException("List is empty, cannot remove first element.");
+        if (getValue() == null) throw new IllegalStateException("List value is null, cannot remove first element.");
+        if (getValue().isEmpty()) throw new IllegalStateException("List is empty, cannot remove first element.");
 
-        this.getValue().removeFirst();
+        getValue().removeFirst();
     }
 
     @Override
     public void removeLast() {
-        if (this.getValue() == null) throw new IllegalStateException("List value is null, cannot remove last element.");
-        if (this.getValue().isEmpty()) throw new IllegalStateException("List is empty, cannot remove last element.");
+        if (getValue() == null) throw new IllegalStateException("List value is null, cannot remove last element.");
+        if (getValue().isEmpty()) throw new IllegalStateException("List is empty, cannot remove last element.");
 
-        this.getValue().removeLast();
+        getValue().removeLast();
     }
 
     @Override
     public void clear() {
-        if (this.getValue() == null) throw new IllegalStateException("List value is null, cannot clear.");
-        this.getValue().clear();
+        if (getValue() == null) throw new IllegalStateException("List value is null, cannot clear.");
+        getValue().clear();
     }
 
     @Override

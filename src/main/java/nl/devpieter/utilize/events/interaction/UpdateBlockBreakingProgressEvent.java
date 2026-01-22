@@ -2,9 +2,9 @@ package nl.devpieter.utilize.events.interaction;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import nl.devpieter.sees.Event.CancelableEventBase;
+import nl.devpieter.sees.event.SCancelableEventBase;
 
-public class UpdateBlockBreakingProgressEvent extends CancelableEventBase {
+public class UpdateBlockBreakingProgressEvent extends SCancelableEventBase {
 
     private final BlockPos blockPos;
     private final Direction direction;

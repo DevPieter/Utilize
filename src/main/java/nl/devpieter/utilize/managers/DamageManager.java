@@ -4,38 +4,37 @@ import nl.devpieter.sees.Sees;
 import nl.devpieter.utilize.events.player.PlayerDamagedEvent;
 import nl.devpieter.utilize.events.player.PlayerHealedEvent;
 
-public class DamageManager {
+public final class DamageManager {
 
-    private static DamageManager INSTANCE;
+    private static final DamageManager INSTANCE = new DamageManager();
 
-    private final Sees sees = Sees.getInstance();
+    private final Sees sees = Sees.getSharedInstance();
 
-    private double currentHealth = -1;
+    private double currentCurrentHealth = -1;
 
     private DamageManager() {
     }
 
     public static DamageManager getInstance() {
-        if (INSTANCE == null) INSTANCE = new DamageManager();
         return INSTANCE;
     }
 
     public void tick(double currentHealth) {
-        if (this.currentHealth == -1) {
-            this.currentHealth = currentHealth;
+        if (currentCurrentHealth == -1) {
+            currentCurrentHealth = currentHealth;
             return;
         }
 
-        double difference = this.currentHealth - currentHealth;
-        this.currentHealth = currentHealth;
+        double difference = currentCurrentHealth - currentHealth;
+        currentCurrentHealth = currentHealth;
 
         if (difference == 0) return;
 
-        if (difference > 0) this.sees.call(new PlayerDamagedEvent(currentHealth, difference));
-        else if (difference < 0) this.sees.call(new PlayerHealedEvent(currentHealth, -difference));
+        if (difference > 0) sees.dispatch(new PlayerDamagedEvent(currentHealth, difference));
+        else if (difference < 0) sees.dispatch(new PlayerHealedEvent(currentHealth, -difference));
     }
 
     public double getCurrentHealth() {
-        return this.currentHealth;
+        return currentCurrentHealth;
     }
 }
