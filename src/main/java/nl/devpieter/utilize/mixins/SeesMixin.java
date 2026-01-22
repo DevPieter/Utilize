@@ -19,14 +19,14 @@ public class SeesMixin {
     @Unique
     private final Logger logger = LoggerFactory.getLogger("Utilize/SeesMixin");
 
-    @Inject(
-            method = "dispatch(Lnl/devpieter/sees/event/SEvent;)Z",
-            at = @At("RETURN")
-    )
-    private void onDispatch(SEvent event, CallbackInfoReturnable<Boolean> cir) {
-        if (event instanceof ITickEvent || event instanceof KeyBindingPressedCheckEvent) return;
-        if (!ClientUtils.isDevEnv()) return;
-
-        logger.info("Dispatched event: {} (canceled: {})", event.getClass().getSimpleName(), cir.getReturnValue());
-    }
+//    @Inject(
+//            method = "dispatch(Lnl/devpieter/sees/event/SEvent;)Z",
+//            at = @At("RETURN")
+//    )
+//    private void onDispatch(SEvent event, CallbackInfoReturnable<Boolean> cir) {
+//        if (event instanceof ITickEvent || event instanceof KeyBindingPressedCheckEvent) return;
+//        if (!ClientUtils.isDevEnv()) return;
+//
+//        logger.info("Dispatched event: {} (canceled: {})", event.getClass().getSimpleName(), cir.getReturnValue());
+//    }
 }

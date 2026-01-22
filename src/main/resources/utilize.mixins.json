@@ -8,8 +8,7 @@
     "ClientPlayerEntityMixin",
     "ClientPlayerInteractionManagerMixin",
     "KeyBindingMixin",
-    "MinecraftClientMixin",
-    "accessors.DebugRendererAccessor"
+    "MinecraftClientMixin"
   ],
   "injectors": {
     "defaultRequire": 1

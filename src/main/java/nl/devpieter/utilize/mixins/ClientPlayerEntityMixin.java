@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity {
 
     @Unique
-    private final Sees sees = Sees.getInstance();
+    private final Sees sees = Sees.getSharedInstance();
 
     @Unique
     private final DamageManager damageManager = DamageManager.getInstance();

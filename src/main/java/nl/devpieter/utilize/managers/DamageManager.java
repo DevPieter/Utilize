@@ -8,7 +8,7 @@ public final class DamageManager {
 
     private static final DamageManager INSTANCE = new DamageManager();
 
-    private final Sees sees = Sees.getInstance();
+    private final Sees sees = Sees.getSharedInstance();
 
     private double currentCurrentHealth = -1;
 

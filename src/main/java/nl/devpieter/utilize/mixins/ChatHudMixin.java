@@ -33,7 +33,7 @@ public abstract class ChatHudMixin {
     protected abstract void addMessage(ChatHudLine message);
 
     @Unique
-    private final Sees sees = Sees.getInstance();
+    private final Sees sees = Sees.getSharedInstance();
 
     @Inject(at = @At("HEAD"), method = "addMessage(Lnet/minecraft/text/Text;Lnet/minecraft/network/message/MessageSignatureData;Lnet/minecraft/client/gui/hud/MessageIndicator;)V", cancellable = true)
     public void onAddMessage(Text message, MessageSignatureData signatureData, MessageIndicator indicator, CallbackInfo ci) {

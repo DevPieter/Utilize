@@ -28,7 +28,7 @@ public abstract class KeyBindingMixin {
     public abstract String getId();
 
     @Unique
-    private final Sees sees = Sees.getInstance();
+    private final Sees sees = Sees.getSharedInstance();
 
     @Inject(at = @At("RETURN"), method = "isPressed", cancellable = true)
     private void isPressed(CallbackInfoReturnable<Boolean> cir) {
