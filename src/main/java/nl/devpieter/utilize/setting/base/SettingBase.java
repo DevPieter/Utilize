@@ -25,22 +25,22 @@ public abstract class SettingBase<T> implements ISetting<T> {
 
     @Override
     public String getIdentifier() {
-        return identifier;
+        return this.identifier;
     }
 
     @Override
     public boolean shouldAllowNull() {
-        return allowNull;
+        return this.allowNull;
     }
 
     @Override
     public T getValue() {
-        return value;
+        return this.value;
     }
 
     @Override
     public T getDefault() {
-        return defaultValue;
+        return this.defaultValue;
     }
 
     @Override
