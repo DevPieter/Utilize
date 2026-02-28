@@ -66,15 +66,11 @@ public abstract class KeyBindingMixin {
 
     @Unique
     private void forceRelease(CallbackInfoReturnable<Boolean> cir) {
-        timesPressed = 0;
-        setPressed(false);
         cir.setReturnValue(false);
     }
 
     @Unique
     private void forcePress(CallbackInfoReturnable<Boolean> cir) {
-        if (timesPressed < 1) timesPressed = 1;
-        setPressed(true);
         cir.setReturnValue(true);
     }
 }
