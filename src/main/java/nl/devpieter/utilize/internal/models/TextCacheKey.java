@@ -4,49 +4,29 @@ import net.minecraft.text.Style;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 @ApiStatus.Internal
 public record TextCacheKey(String key, Style style, Object[] args) {
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-
-        TextCacheKey other = (TextCacheKey) obj;
-        if (!key.equals(other.key)) return false;
-        if (!style.equals(other.style)) return false;
-        if (args.length != other.args.length) return false;
-
-        for (int i = 0; i < args.length; i++) {
-            if (!args[i].equals(other.args[i])) return false;
-        }
-
-        return true;
+    public boolean equals(Object o) {
+        if (!(o instanceof TextCacheKey(String key1, Style style1, Object[] args1))) return false;
+        return Objects.equals(key, key1) && Objects.equals(style, style1) && Objects.deepEquals(args, args1);
     }
 
     @Override
     public int hashCode() {
-        int result = key.hashCode();
-
-        result = 31 * result + style.hashCode();
-        for (Object arg : args) result = 31 * result + arg.hashCode();
-
-        return result;
+        return Objects.hash(key, style, Arrays.hashCode(args));
     }
 
     @Override
     public @NotNull String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("CacheKey{key='").append(key).append('\'');
-        sb.append(", style=").append(style);
-        sb.append(", args=[");
-
-        for (int i = 0; i < args.length; i++) {
-            sb.append(args[i]);
-            if (i < args.length - 1) sb.append(", ");
-        }
-
-        sb.append("]}");
-        return sb.toString();
+        return "TextCacheKey{" +
+                "key='" + key + '\'' +
+                ", style=" + style +
+                ", args=" + Arrays.toString(args) +
+                '}';
     }
 }
