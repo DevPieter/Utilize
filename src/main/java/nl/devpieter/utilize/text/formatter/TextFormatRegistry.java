@@ -1,6 +1,6 @@
 package nl.devpieter.utilize.text.formatter;
 
-import nl.devpieter.utilize.internal.models.UIdentifier;
+import nl.devpieter.utilize.models.UIdentifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -26,6 +26,10 @@ public class TextFormatRegistry {
 
     public void register(@NotNull String namespace, @NotNull String path, @NotNull ITextFormatter formatter) {
         register(UIdentifier.of(namespace, path), formatter);
+    }
+
+    public void register(@NotNull String namespacePath, @NotNull ITextFormatter formatter) {
+        register(UIdentifier.of(namespacePath), formatter);
     }
 
     public void register(@NotNull UIdentifier identifier, @NotNull ITextFormatter formatter) {
