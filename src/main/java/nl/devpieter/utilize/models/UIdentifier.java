@@ -1,13 +1,11 @@
 package nl.devpieter.utilize.models;
 
 import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-@ApiStatus.Internal
 public class UIdentifier {
 
     public static final char NAMESPACE_SEPARATOR = Identifier.NAMESPACE_SEPARATOR;

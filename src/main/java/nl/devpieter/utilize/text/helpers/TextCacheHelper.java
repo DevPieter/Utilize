@@ -3,7 +3,7 @@ package nl.devpieter.utilize.text.helpers;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
 import nl.devpieter.utilize.internal.models.TextCacheKey;
-import nl.devpieter.utilize.text.formatter.TextFormatUtils;
+import nl.devpieter.utilize.text.formatter.utils.TextFormatUtils;
 
 import java.util.HashMap;
 
