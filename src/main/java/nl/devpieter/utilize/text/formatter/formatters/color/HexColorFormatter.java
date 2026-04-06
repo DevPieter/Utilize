@@ -1,11 +1,9 @@
-package nl.devpieter.utilize.text.formatter.formats;
+package nl.devpieter.utilize.text.formatter.formatters.color;
 
-import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
-import net.minecraft.text.Text;
 import net.minecraft.text.TextColor;
-import nl.devpieter.utilize.text.formatter.ITextFormatter;
 import nl.devpieter.utilize.internal.utils.ColorUtils;
+import nl.devpieter.utilize.text.formatter.ITextFormatter;
 import org.jetbrains.annotations.NotNull;
 
 public class HexColorFormatter implements ITextFormatter {
@@ -17,7 +15,7 @@ public class HexColorFormatter implements ITextFormatter {
     }
 
     @Override
-    public MutableText format(String content, Style baseStyle) {
-        return Text.literal(content).setStyle(baseStyle.withColor(color));
+    public Style applyFormatting(Style parent) {
+        return parent.withColor(color);
     }
 }
