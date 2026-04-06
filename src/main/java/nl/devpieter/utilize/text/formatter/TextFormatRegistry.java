@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class TextFormatRegistry {
 
@@ -57,7 +58,7 @@ public class TextFormatRegistry {
     public Pattern getPattern() {
         if (!isDirty && pattern != null) return pattern;
 
-        String tagAlternatives = formatters.keySet().stream().map(identifier -> Pattern.quote(identifier.toString())).collect(java.util.stream.Collectors.joining("|"));
+        String tagAlternatives = formatters.keySet().stream().map(identifier -> Pattern.quote(identifier.toString())).collect(Collectors.joining("|"));
         pattern = Pattern.compile("<(#[0-9a-fA-F]{3}|#[0-9a-fA-F]{6}|" + tagAlternatives + ")>(.*?)</\\1>", Pattern.DOTALL);
 
         isDirty = false;
