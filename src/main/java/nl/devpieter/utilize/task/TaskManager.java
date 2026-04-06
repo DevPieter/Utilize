@@ -1,6 +1,6 @@
 package nl.devpieter.utilize.task;
 
-import nl.devpieter.utilize.task.interfaces.ITask;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -10,26 +10,50 @@ public final class TaskManager {
 
     private static final TaskManager INSTANCE = new TaskManager();
 
-    private final List<TaskEntry> pendingTasks = new ArrayList<>();
-    private final EnumMap<TickPhase, List<ITask>> taskMap = new EnumMap<>(TickPhase.class);
+    private final OldTaskManager oldTaskManager;
+
+    private final List<nl.devpieter.utilize.task.models.TaskEntry> pendingTasks = new ArrayList<>();
+    private final EnumMap<nl.devpieter.utilize.task.enums.TickPhase, List<ITask>> taskMap = new EnumMap<>(nl.devpieter.utilize.task.enums.TickPhase.class);
 
     private TaskManager() {
-        taskMap.put(TickPhase.PLAYER_HEAD, new ArrayList<>());
-        taskMap.put(TickPhase.PLAYER_TAIL, new ArrayList<>());
-        taskMap.put(TickPhase.CLIENT_HEAD, new ArrayList<>());
-        taskMap.put(TickPhase.CLIENT_TAIL, new ArrayList<>());
+        oldTaskManager = new OldTaskManager();
+
+        taskMap.put(nl.devpieter.utilize.task.enums.TickPhase.PLAYER_HEAD, new ArrayList<>());
+        taskMap.put(nl.devpieter.utilize.task.enums.TickPhase.PLAYER_TAIL, new ArrayList<>());
+        taskMap.put(nl.devpieter.utilize.task.enums.TickPhase.CLIENT_HEAD, new ArrayList<>());
+        taskMap.put(nl.devpieter.utilize.task.enums.TickPhase.CLIENT_TAIL, new ArrayList<>());
     }
 
     public static TaskManager getInstance() {
         return INSTANCE;
     }
 
-    public void addTask(ITask task) {
-        addTask(task, TickPhase.PLAYER_TAIL);
+    @Deprecated(since = "1.1.3", forRemoval = true)
+    public void addTask(nl.devpieter.utilize.task.interfaces.ITask task) {
+        oldTaskManager.addTask(task);
     }
 
-    public void addTask(ITask task, TickPhase phase) {
-        pendingTasks.add(new TaskEntry(task, phase));
+    @Deprecated(since = "1.1.3", forRemoval = true)
+    public void addTask(nl.devpieter.utilize.task.interfaces.ITask task, TickPhase phase) {
+        oldTaskManager.addTask(task, phase);
+    }
+
+    @Deprecated(since = "1.1.3", forRemoval = true)
+    public void addTask(nl.devpieter.utilize.task.interfaces.ITask task, nl.devpieter.utilize.task.enums.TickPhase phase) {
+        oldTaskManager.addTask(task, toOldPhase(phase));
+    }
+
+    @Deprecated(since = "1.1.3", forRemoval = true)
+    public void removeTask(nl.devpieter.utilize.task.interfaces.ITask task) {
+        oldTaskManager.removeTask(task);
+    }
+
+    public void addTask(ITask task) {
+        addTask(task, nl.devpieter.utilize.task.enums.TickPhase.PLAYER_TAIL);
+    }
+
+    public void addTask(ITask task, nl.devpieter.utilize.task.enums.TickPhase phase) {
+        pendingTasks.add(new nl.devpieter.utilize.task.models.TaskEntry(task, phase));
     }
 
     public void removeTask(ITask task) {
@@ -40,22 +64,27 @@ public final class TaskManager {
         }
     }
 
+    @ApiStatus.Internal
     public void beginTick() {
+        oldTaskManager.beginTick();
         flushPendingTasks();
     }
 
-    public void tick(TickPhase phase) {
+    @ApiStatus.Internal
+    public void tick(nl.devpieter.utilize.task.enums.TickPhase phase) {
+        oldTaskManager.tick(toOldPhase(phase));
+
         List<ITask> tasks = taskMap.get(phase);
         if (tasks == null || tasks.isEmpty()) return;
 
         List<ITask> toRemove = new ArrayList<>();
 
         for (ITask task : tasks) {
-            TickResult result = task.tick();
+            nl.devpieter.utilize.task.enums.TickResult result = task.tick();
 
-            if (result == TickResult.FINISHED) {
+            if (result == nl.devpieter.utilize.task.enums.TickResult.FINISHED) {
                 toRemove.add(task);
-            } else if (result == TickResult.REQUEUE) {
+            } else if (result == nl.devpieter.utilize.task.enums.TickResult.REQUEUE) {
                 toRemove.add(task);
                 addTask(task, phase);
             }
@@ -67,13 +96,14 @@ public final class TaskManager {
     private void flushPendingTasks() {
         if (pendingTasks.isEmpty()) return;
 
-        for (TaskEntry entry : pendingTasks) {
+        for (nl.devpieter.utilize.task.models.TaskEntry entry : pendingTasks) {
             taskMap.get(entry.phase()).add(entry.task());
         }
 
         pendingTasks.clear();
     }
 
+    @Deprecated(since = "1.1.3", forRemoval = true)
     public enum TickPhase {
         PLAYER_HEAD,
         PLAYER_TAIL,
@@ -81,12 +111,23 @@ public final class TaskManager {
         CLIENT_TAIL
     }
 
+    @Deprecated(since = "1.1.3", forRemoval = true)
     public enum TickResult {
         CONTINUE,
         FINISHED,
         REQUEUE
     }
 
-    private record TaskEntry(ITask task, TickPhase phase) {
+    @Deprecated(since = "1.1.3", forRemoval = true)
+    public record TaskEntry(nl.devpieter.utilize.task.interfaces.ITask task, TickPhase phase) {
+    }
+
+    private TickPhase toOldPhase(nl.devpieter.utilize.task.enums.TickPhase phase) {
+        return switch (phase) {
+            case PLAYER_HEAD -> TickPhase.PLAYER_HEAD;
+            case PLAYER_TAIL -> TickPhase.PLAYER_TAIL;
+            case CLIENT_HEAD -> TickPhase.CLIENT_HEAD;
+            case CLIENT_TAIL -> TickPhase.CLIENT_TAIL;
+        };
     }
 }

@@ -9,6 +9,7 @@ import nl.devpieter.utilize.events.tick.ClientPlayerTickEvent;
 import nl.devpieter.utilize.events.tick.ClientPlayerTickTailEvent;
 import nl.devpieter.utilize.managers.DamageManager;
 import nl.devpieter.utilize.task.TaskManager;
+import nl.devpieter.utilize.task.enums.TickPhase;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -33,14 +34,14 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 
     @Inject(at = @At("HEAD"), method = "tick")
     private void onTick(CallbackInfo ci) {
-        taskManager.tick(TaskManager.TickPhase.PLAYER_HEAD);
+        taskManager.tick(TickPhase.PLAYER_HEAD);
         sees.dispatch(new ClientPlayerTickEvent());
     }
 
     @Inject(at = @At("TAIL"), method = "tick")
     private void onTickTail(CallbackInfo ci) {
         damageManager.tick(getHealth());
-        taskManager.tick(TaskManager.TickPhase.PLAYER_TAIL);
+        taskManager.tick(TickPhase.PLAYER_TAIL);
 
         sees.dispatch(new ClientPlayerTickTailEvent());
     }

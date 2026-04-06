@@ -1,7 +1,7 @@
 package nl.devpieter.utilize.task.tasks;
 
-import nl.devpieter.utilize.task.TaskManager;
-import nl.devpieter.utilize.task.interfaces.ITask;
+import nl.devpieter.utilize.task.ITask;
+import nl.devpieter.utilize.task.enums.TickResult;
 import nl.devpieter.utilize.utils.common.MathUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,17 +26,17 @@ public class RunLaterTask implements ITask {
     }
 
     @Override
-    public TaskManager.TickResult tick() {
-        if (finished) return TaskManager.TickResult.FINISHED;
+    public TickResult tick() {
+        if (finished) return TickResult.FINISHED;
 
         tickCounter++;
         if (tickCounter < startDelayTicks) {
-            return TaskManager.TickResult.CONTINUE;
+            return TickResult.CONTINUE;
         }
 
         runnable.run();
         finished = true;
 
-        return TaskManager.TickResult.FINISHED;
+        return TickResult.FINISHED;
     }
 }

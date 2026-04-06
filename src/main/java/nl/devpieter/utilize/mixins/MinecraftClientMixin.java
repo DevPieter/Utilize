@@ -9,6 +9,7 @@ import nl.devpieter.utilize.events.tick.ClientTickEvent;
 import nl.devpieter.utilize.events.tick.ClientTickTailEvent;
 import nl.devpieter.utilize.setting.SettingManager;
 import nl.devpieter.utilize.task.TaskManager;
+import nl.devpieter.utilize.task.enums.TickPhase;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -52,7 +53,7 @@ public class MinecraftClientMixin {
 
         if (taskManager != null) {
             taskManager.beginTick();
-            taskManager.tick(TaskManager.TickPhase.CLIENT_HEAD);
+            taskManager.tick(TickPhase.CLIENT_HEAD);
         }
 
         sees.dispatch(new ClientTickEvent());
@@ -61,7 +62,7 @@ public class MinecraftClientMixin {
     @Inject(at = @At("TAIL"), method = "tick")
     private void onTickTail(CallbackInfo ci) {
         if (settingManager != null) settingManager.tick();
-        if (taskManager != null) taskManager.tick(TaskManager.TickPhase.CLIENT_TAIL);
+        if (taskManager != null) taskManager.tick(TickPhase.CLIENT_TAIL);
 
         sees.dispatch(new ClientTickTailEvent());
     }
