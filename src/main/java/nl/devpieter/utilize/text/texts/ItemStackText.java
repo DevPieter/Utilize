@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import nl.devpieter.utilize.text.IText;
-import nl.devpieter.utilize.text.formatter.TextFormatUtils;
+import nl.devpieter.utilize.text.formatter.utils.TextFormatUtils;
 import nl.devpieter.utilize.text.helpers.TextCacheHelper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

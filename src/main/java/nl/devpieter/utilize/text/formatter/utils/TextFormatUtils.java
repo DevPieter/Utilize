@@ -1,9 +1,11 @@
-package nl.devpieter.utilize.text.formatter;
+package nl.devpieter.utilize.text.formatter.utils;
 
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import nl.devpieter.utilize.internal.utils.ColorUtils;
+import nl.devpieter.utilize.text.formatter.ITextFormatter;
+import nl.devpieter.utilize.text.formatter.TextFormatRegistry;
 import nl.devpieter.utilize.text.formatter.formats.HexColorFormatter;
 
 import java.util.regex.Matcher;
