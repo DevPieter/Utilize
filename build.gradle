@@ -1,16 +1,8 @@
-//plugins {
-//    id 'net.fabricmc.fabric-loom' version '1.17-SNAPSHOT'
-//    id 'maven-publish'
-//}
-
 plugins {
     id 'net.fabricmc.fabric-loom'
     id 'com.replaymod.preprocess'
     id 'maven-publish'
 }
-
-//version = project.mod_version
-//group = project.maven_group
 
 def isSnapshot = providers.environmentVariable("SNAPSHOT_BUILD").map { it.toBoolean() }.orElse(false).get()
 def buildNumber = System.getenv('BUILD_NUMBER') ?: 'dev'
@@ -33,7 +25,6 @@ loom {
     }
 }
 
-
 repositories {
     maven {
         name "Pietr Space Releases"
@@ -42,7 +33,6 @@ repositories {
 }
 
 dependencies {
-    // To change the versions see the gradle.properties file
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     implementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
