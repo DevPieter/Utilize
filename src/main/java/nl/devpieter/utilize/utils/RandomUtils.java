@@ -1,4 +1,4 @@
-package nl.devpieter.utilize.utils.common;
+package nl.devpieter.utilize.utils;
 
 public final class RandomUtils {
 
