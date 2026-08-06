@@ -1,7 +1,7 @@
 package nl.devpieter.utilize.managers;
 
-import net.minecraft.network.packet.Packet;
-import nl.devpieter.utilize.listeners.packet.IPacketListener;
+import net.minecraft.network.protocol.Packet;
+import nl.devpieter.utilize.packet.IPacketListener;
 
 import java.util.ArrayList;
 import java.util.List;

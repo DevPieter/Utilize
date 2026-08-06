@@ -1,20 +1,15 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "nl.devpieter.utilize.mixins",
-  "compatibilityLevel": "JAVA_21",
-  "client": [
-    "ChatHudMixin",
-    "ClientPlayerEntityMixin",
-    "ClientPlayerInteractionManagerMixin",
-    "KeyBindingMixin",
-    "MinecraftClientMixin"
+  "package": "nl.devpieter.utilize.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "mixins": [
+    "ConnectionMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
-  "mixins": [
-    "ClientConnectionMixin",
-    "SeesMixin"
-  ]
+  "overwrites": {
+    "requireAnnotations": true
+  }
 }
