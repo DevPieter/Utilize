@@ -1,16 +1,13 @@
 package nl.devpieter.utilize;
 
-import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
+import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.SharedConstants;
-import nl.devpieter.utilize.http.AsyncRequest;
-import nl.devpieter.utilize.setting.SettingManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Utilize implements ClientModInitializer {
+public class Utilize implements ModInitializer {
 
     private static Utilize INSTANCE;
 
@@ -20,15 +17,8 @@ public class Utilize implements ClientModInitializer {
     private boolean isInitialized;
 
     @Override
-    public void onInitializeClient() {
+    public void onInitialize() {
         INSTANCE = this;
-
-        ClientLifecycleEvents.CLIENT_STOPPING.register((client) -> {
-            logger.info("Shutting down Utilize...");
-
-            SettingManager.shutdown();
-            AsyncRequest.shutdown();
-        });
 
         logger.info("Utilize initialized successfully! Version: {}", getUtilizeVersion());
         isInitialized = true;
@@ -71,7 +61,7 @@ public class Utilize implements ClientModInitializer {
     }
 
     public String getMinecraftVersion() {
-        return SharedConstants.getGameVersion().name();
+        return SharedConstants.getCurrentVersion().name();
     }
 
     /**
