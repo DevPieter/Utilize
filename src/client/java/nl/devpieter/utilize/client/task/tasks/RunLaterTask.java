@@ -2,7 +2,7 @@ package nl.devpieter.utilize.client.task.tasks;
 
 import nl.devpieter.utilize.client.task.ITask;
 import nl.devpieter.utilize.client.task.enums.TickResult;
-import nl.devpieter.utilize.utils.common.MathUtils;
+import nl.devpieter.utilize.utils.MathUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
