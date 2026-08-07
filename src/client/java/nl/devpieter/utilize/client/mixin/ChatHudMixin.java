@@ -25,6 +25,6 @@ public abstract class ChatHudMixin {
         ChatMessageAddEvent event = new ChatMessageAddEvent(contents);
         Component result = sees.dispatchWithResult(event);
 
-        return event.isCancelled() ? contents : result;
+        return event.isCancelled() ? Component.empty() : result;
     }
 }
